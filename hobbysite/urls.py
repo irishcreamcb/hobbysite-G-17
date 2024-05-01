@@ -20,8 +20,9 @@ from django.urls import include, path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('merchstore.urls', namespace='merchstore')),
-    path('', include('commissions.urls', namespace='commissions')),
-    path('', include('blog.urls', namespace='blog')),
-    path('wiki/', include('wiki.urls', namespace='wiki')),
+    path('', include('merchstore.urls', namespace = 'merchsotre')),
+    path('', include('commissions.urls', namespace = 'commissions')),
+    path('', include('blog.urls', namespace = 'blog')), 
+    path('', include('wiki.urls', namespace = 'wiki')),  
+    path('/user_management', include('django.contrib.auth.urls')),
 ]
