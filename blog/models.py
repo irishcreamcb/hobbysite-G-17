@@ -19,6 +19,11 @@ class Article(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     update_on = models.DateTimeField(auto_now=True)
 
+    # author = models.ForeignKey(
+    #     Profile,
+    #     null=True,
+    #     on_delete=models.SET_NULL) will uncomment once the missing Profile problem has been fixed
+
     category = models.ForeignKey(
         ArticleCategory,
         null=True,
@@ -33,3 +38,22 @@ class Article(models.Model):
     
     class Meta:
         ordering = ['-created_on']
+
+
+class Comment(models.Model):
+    entry = models.TextField()
+    created_on = models.DateTimeField(auto_now_add=True)
+    update_on = models.DateTimeField(auto_now=True)
+
+    # author = models.ForeignKey(
+    #     Profile,
+    #     null=True,
+    #     on_delete=models.SET_NULL) will uncomment once the missing Profile problem has been fixed
+
+    article = models.ForeignKey(
+        Article,
+        null=True,
+        on_delete=models.CASCADE) 
+    
+    class Meta:
+        ordering = ['created_on']
