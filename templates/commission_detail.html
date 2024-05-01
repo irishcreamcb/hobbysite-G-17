@@ -13,10 +13,10 @@
     </h3>
     <p>{{ commission.description }}</p>
     <ul>
-        {% for comment in commission.comments.all %}
+        {% for job in commission.jobs.all %}
             <li>
-                {{ comment.entry }}<br> 
-                {{ comment.created_on }}, last updated {{ comment.updated_on }}
+                {{ job.entry }}<br> 
+                {{ job.created_on }}, last updated {{ job.updated_on }}
             </li>
         {% endfor %}
     </ul>

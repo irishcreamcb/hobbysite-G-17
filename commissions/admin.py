@@ -1,18 +1,18 @@
 from django.contrib import admin
-from .models import Commission, Comment 
+from .models import Commission, Job 
 
 
 class CommissionInline(admin.TabularInline): 
     model = Commission
 
 
-class CommentInline(admin.TabularInline): 
-    model = Comment 
+class JobInline(admin.TabularInline): 
+    model = Job
 
 
 class CommissionAdmin(admin.ModelAdmin): 
     model = Commission
-    inlines = [CommentInline,]
+    inlines = [Job,]
 
     list_display = ['title']
 
