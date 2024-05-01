@@ -24,7 +24,9 @@ class Product(models.Model):
     )
     description = models.TextField()
     price = models.DecimalField(max_digits=7, decimal_places=2)
-    
+    owner = models.ForeignKey(
+        'Profile'
+    )
     def __str__(self):
         return self.name
     
