@@ -1,7 +1,7 @@
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 
-from .models import ArticleCategory
+from .models import Article, ArticleCategory
 
 
 class ArticleListView(ListView):
@@ -10,5 +10,5 @@ class ArticleListView(ListView):
 
 
 class ArticleDetailView(DetailView):
-    model = ArticleCategory
+    model = Article
     template_name = 'blog_detail.html'

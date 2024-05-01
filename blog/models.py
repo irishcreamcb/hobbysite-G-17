@@ -1,7 +1,6 @@
 from django.db import models
 from django.urls import reverse
 
-# Create your models here.
 
 class ArticleCategory(models.Model):
     name = models.CharField(max_length=255)
@@ -9,9 +8,6 @@ class ArticleCategory(models.Model):
 
     def __str__(self):
         return self.name
-    
-    def get_absolute_url(self):
-        return reverse('blog:detail', args=[self.pk])
     
     class Meta:
         ordering = ['name']
@@ -31,6 +27,9 @@ class Article(models.Model):
     
     def __str__(self):
         return self.title
+    
+    def get_absolute_url(self):
+        return reverse('blog:detail', args=[self.pk])
     
     class Meta:
         ordering = ['-created_on']
