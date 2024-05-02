@@ -4,11 +4,50 @@
     Commission List 
 {% endblock title %}
 {% block content %}
+{% if request.user.is_authenticated %} 
+    <h1>Your Commissions</h1>
 <h1>Commission List</h1>
+<h2>Open Commissions</h2>
 <h3>
     <ul>
         {% for commission in object_list %}
+        {% if commission.status == 'Open' %} 
             <li><a href="{{ commission.get_absolute_url }}">{{ commission.title }}</li>
+        {% else %} 
+        {% endif %} 
+        {% endfor %} 
+    </ul>
+</h3>
+<h2>Full Commissions</h2>
+<h3>
+    <ul>
+        {% for commission in object_list %}
+        {% if commission.status == 'Full' %} 
+            <li><a href="{{ commission.get_absolute_url }}">{{ commission.title }}</li>
+        {% else %} 
+        {% endif %} 
+        {% endfor %} 
+    </ul>
+</h3>
+<h2>Completed Commissions</h2>
+<h3>
+    <ul>
+        {% for commission in object_list %}
+        {% if commission.status == 'Completed' %} 
+            <li><a href="{{ commission.get_absolute_url }}">{{ commission.title }}</li>
+        {% else %} 
+        {% endif %} 
+        {% endfor %} 
+    </ul>
+</h3>
+<h2>Discontinued Commissions</h2>
+<h3>
+    <ul>
+        {% for commission in object_list %}
+        {% if commission.status == 'Discontinued' %} 
+            <li><a href="{{ commission.get_absolute_url }}">{{ commission.title }}</li>
+        {% else %} 
+        {% endif %} 
         {% endfor %} 
     </ul>
 </h3>

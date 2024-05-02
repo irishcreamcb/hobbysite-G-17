@@ -1,7 +1,7 @@
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 
-from .models import Commission, Comment 
+from .models import Commission, Job
 
 
 class CommissionListView(ListView): 

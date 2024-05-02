@@ -20,7 +20,8 @@ class Commission(models.Model):
     
     class Meta: 
         ordering = [
-            'created_on'
+            'status',
+            'created_on',
         ] 
 
     def __str__(self): 
