@@ -6,6 +6,27 @@
 {% block content %}
 {% if request.user.is_authenticated %} 
     <h1>Your Commissions</h1>
+    <h3>
+        <ul>
+            {% for commission in object_list %}
+            {% if commission.creator == request.user %}
+                <li><a href="{{ commission.get_absolute_url }}">{{ commission.title }}</li>
+            {% else %} 
+            {% endif %} 
+        </ul>
+    </h3>
+    <h1>Commission Applications</h1>
+    <h3>
+        <ul>
+            {$ for commission in object_list %} 
+            {% if commission.jobs.applications.applicant == request.user %}
+                <li><a href="{{ commission.get_absolute_url }}">{{ commission.title }}</li>
+            {% else %} 
+            {% endif %} 
+        </ul>
+    </h3>
+{% else %} 
+{% endif %} 
 <h1>Commission List</h1>
 <h2>Open Commissions</h2>
 <h3>

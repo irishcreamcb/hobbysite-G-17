@@ -7,16 +7,20 @@ from user_management.models import Profile
 class Commission(models.Model): 
     title = models.CharField(max_length=255)
     description = models.TextField() 
-    STATUS_CHOICES = [
-        'Open', 
-        'Full', 
-        'Completed', 
-        'Discontinued'
-    ]
+    STATUS_CHOICES = {
+        'O' : 'Open', 
+        'F' : 'Full', 
+        'C' : 'Completed', 
+        'D' : 'Discontinued'
+    }
     status = models.CharField(choices=STATUS_CHOICES, 
-                              default='Open',) 
+                              default='O',
+                              max_length=2) 
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
+    creator = models.ForeignKey(Profile, 
+                                on_delete=models.CASCADE,
+                                related_name='commission',)
     
     class Meta: 
         ordering = [
@@ -37,12 +41,13 @@ class Job(models.Model):
                                    related_name='jobs',)
     role = models.CharField(max_length=255)
     manpower_required = models.IntegerField()
-    STATUS_CHOICES = [
-        'Open',
-        'Full'
-    ]
+    STATUS_CHOICES = {
+        'O' : 'Open',
+        'F' : 'Full'
+    }
     status = models.CharField(choices=STATUS_CHOICES, 
-                              default='Open',)
+                              default='O',
+                              max_length=2)
 
     class Meta: 
         ordering = [
@@ -62,13 +67,14 @@ class JobApplication(models.Model):
     applicant = models.ForeignKey(Profile,
                                   on_delete=models.CASCADE, 
                                   related_name='commission_job')
-    STATUS_CHOICES = [
-        'Pending', 
-        'Accepted', 
-        'Rejected', 
-    ]
+    STATUS_CHOICES = {
+        'P' : 'Pending', 
+        'A' : 'Accepted', 
+        'R' : 'Rejected', 
+    }
     status = models.CharField(choices=STATUS_CHOICES,
-                              default='Pending')
+                              default='P',
+                              max_length=2)
     applied_on = models.DateTimeField(auto_now_add=True)
 
     class Meta: 

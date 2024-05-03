@@ -1,5 +1,5 @@
 from django.views.generic.edit import UpdateView
-from django.contrib.auth.mixings import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Profile 
 

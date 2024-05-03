@@ -12,7 +12,7 @@ class JobInline(admin.TabularInline):
 
 class CommissionAdmin(admin.ModelAdmin): 
     model = Commission
-    inlines = [Job,]
+    inlines = [JobInline,]
 
     list_display = ['title']
 
