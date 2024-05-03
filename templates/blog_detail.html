@@ -2,14 +2,25 @@
     {% extends "base.html" %}
     {% block title %}Blog{% endblock title %}
     {% block content %}
+    {% if request.user.is_authenticated %}
+        <head>
+            <h1><a href='/blog/articles'>Return to Article Categories</a></h1>
+        </head>
         <head>
             <h2>{{ object }}</h2>
         </head>
         <body>
             <ul>
+                <p>By {{ article.author }}</p>
                 <p>Published on {{ article.created_on }} | Last edited on {{ article.update_on }}</p>
                 <p>{{ article.entry }}</p>
             </ul>
+            <p><a href='{% url 'blog:edit' pk=article.pk %}'>Edit Article.</a></p>
+            <form method="POST" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit">LOG OUT</button>
+            </form>
         </body>
+    {% endif %}
     {% endblock content %}
 </html>

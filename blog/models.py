@@ -1,6 +1,8 @@
 from django.db import models
 from django.urls import reverse
 
+from user_management.models import Profile
+
 
 class ArticleCategory(models.Model):
     name = models.CharField(max_length=255)
@@ -19,10 +21,10 @@ class Article(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     update_on = models.DateTimeField(auto_now=True)
 
-    # author = models.ForeignKey(
-    #     Profile,
-    #     null=True,
-    #     on_delete=models.SET_NULL) will uncomment once the missing Profile problem has been fixed
+    author = models.ForeignKey(
+        Profile,
+        null=True,
+        on_delete=models.SET_NULL) 
 
     category = models.ForeignKey(
         ArticleCategory,
@@ -45,10 +47,10 @@ class Comment(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     update_on = models.DateTimeField(auto_now=True)
 
-    # author = models.ForeignKey(
-    #     Profile,
-    #     null=True,
-    #     on_delete=models.SET_NULL) will uncomment once the missing Profile problem has been fixed
+    author = models.ForeignKey(
+        Profile,
+        null=True,
+        on_delete=models.SET_NULL) 
 
     article = models.ForeignKey(
         Article,

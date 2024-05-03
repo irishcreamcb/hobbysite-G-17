@@ -2,6 +2,7 @@
     {% extends "base.html" %}
     {% block title %}Blog{% endblock title %}
     {% block content %}
+    {% if request.user.is_authenticated %}
         <head>
             <h1>Article Categories</h1>
         </head>
@@ -20,6 +21,12 @@
 
                 {% endfor %}
             </ul>
+            <p><a href='/blog/article/add'>Create Article.</a></p>
+            <form method="POST" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit">LOG OUT</button>
+            </form>
         </body>
+    {% endif %}
     {% endblock content %}
 </html>
