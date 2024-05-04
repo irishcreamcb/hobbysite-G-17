@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}{{ article.title }}{% endblock %}
+{% block content %}
+<a href="{% url 'wiki:list' %}">Back</a>
+
+
+<h1>{{ article.title }}</h1>
+{% if article.author.user == user %}
+<a href="{% url 'wiki:edit' pk=article.pk %}">Edit this article</a>
+{% endif %}
+<small><strong>Created on:</strong> {{ article.created_on }}</small>
+<small><strong>Updated on:</strong> {{ article.updated_on }}</small>
+</br>
+<p>{{ article.entry }}</p>
+
+<h2>Read more from {{ article.category.name }}</h2>
+<ul>
+{% for other_article in read_more %}
+    <li><a href="{{ other_article.get_absolute_url }}">{{ other_article.title }}</a></li>
+{% endfor %}
+</ul>
+<h2>Comments</h2>
+{% if user.is_authenticated %}
+    <form method="post">
+        {% csrf_token %}
+        {{ comment_form }}
+        <input type="submit" value="Submit">
+    </form>
+{% endif %}
+<ul>
+{% for comment in article.comments.all %}
+    <li>
+        <p>{{ comment.author.display_name }}</p>
+        <p>{{ comment.entry }}</p>
+    </li>
+{% endfor %}
+</ul>
+{% endblock %}
