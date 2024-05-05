@@ -2,31 +2,70 @@
     {% extends "base.html" %}
     {% block title %}Blog{% endblock title %}
     {% block content %}
+    <head>
+        <h1>Articles</h1>
+    </head>
+    <body>
+    <ul>
     {% if request.user.is_authenticated %}
-        <head>
-            <h1>Article Categories</h1>
-        </head>
-        <body>
+        
+        <h2>My Articles</h2>
+        <p>View your created articles.</p>
+    
+        {% for article in user_articles %}
             <ul>
-                {% for category in object_list %}
-
-                    <h2>{{ category.name }}</h2>
-                    <p>{{ category.description }}</p>
-
-                    <ul>
-                    {% for article in category.article.all %}
-                        <li><a href='{{ article.get_absolute_url }}'>{{ article.title }}</a></li> 
-                    {% endfor %}
-                    </ul>
-
-                {% endfor %}
+                <li><a href='{{ article.get_absolute_url }}'>{{ article.title }}</a></li> 
             </ul>
-            <p><a href='/blog/article/add'>Create Article.</a></p>
-            <form method="POST" action="{% url 'logout' %}">
-                {% csrf_token %}
-                <button type="submit">LOG OUT</button>
-            </form>
-        </body>
+        {% endfor %}
+
+        <h3><a href='/blog/article/add'>Create Article.</a></h3>
+        
+        <h2>View other Articles</h2>
+        
+        {% regroup object_list by category as all_articles %}
+
+        {% for category in all_articles %}
+
+            <h3>{{ category.grouper }}</h3>
+            <p>{{ category.grouper.description }}</p>
+
+            <ul>
+            {% for article in category.list %}
+                <li><a href='{{ article.get_absolute_url }}'>{{ article.title }}</a></li> 
+            {% endfor %}
+            </ul>
+
+        {% endfor %}
+        
+        <form method="POST" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit">LOG OUT</button>
+        </form>
+    
+    {% else %}
+
+        {% regroup articles_logged_out by category as all_articles %}
+
+        {% for category in all_articles %}
+
+            <h3>{{ category.grouper }}</h3>
+            <p>{{ category.grouper.description }}</p>
+
+            <ul>
+            {% for article in category.list %}
+                <li><a href='{{ article.get_absolute_url }}'>{{ article.title }}</a></li> 
+            {% endfor %}
+            </ul>
+
+        {% endfor %}
+
+        <form method="POST" action="{% url 'login' %}">
+            {% csrf_token %}
+            <button type="submit">LOG IN</button>
+        </form>
+
     {% endif %}
+    </ul>
+    </body>
     {% endblock content %}
 </html>

@@ -18,8 +18,8 @@ class ArticleCategory(models.Model):
 class Article(models.Model):
     title = models.CharField(max_length=255)
     entry = models.TextField()
-    created_on = models.DateTimeField(auto_now_add=True)
-    update_on = models.DateTimeField(auto_now=True)
+    created_on = models.DateTimeField(auto_now_add=True, editable=False)
+    update_on = models.DateTimeField(auto_now=True, editable=False)
 
     author = models.ForeignKey(
         Profile,
