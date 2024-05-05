@@ -1,14 +1,23 @@
 from django import forms
-from .models import Transaction, ProductType
+from django.forms import ModelForm
+from .models import Transaction, ProductType, Product
 
-class TransactionForm(forms.ModelForm):
+        
+class TransactionForm(ModelForm):
     class Meta:
         model = Transaction
+        fields = ['amount', 'transaction_status']
+
+
+class ItemForm(ModelForm):
+    class Meta:
+        model = Product
         fields = '__all__'
 
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+            self.fields["owner"].disabled = True
+        
 
-class CreateForm(forms.Form):
-    name = forms.CharField(max_length=255)
-    description = forms.TextField()
-    price = forms.DecimalField(max_digits=7, decimal_places=2)
-    Product_Type = forms.ModelChoiceField(queryset=ProductType.objects.all())
+
+

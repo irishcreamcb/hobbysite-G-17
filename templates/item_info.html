@@ -6,7 +6,21 @@
 <h1>Title: {{ object.name }}</h1>
 <h2>Type: {{ object.Product_Type}}</h2>
 <h3>Price: {{ object.price }}</h3>
+<h4>Made by: {{ object.owner }}</h4>
 
 <p>{{ object.description }}</p>
 
+{% if request.user.is_authenticated %}
+    {% if request.user == object.owner.user %}
+    <a href="{% url 'merchstore:item-update' object.pk %}">Update Your Product</a>
+    {% else %}
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_div }}
+            <button >BUY</button>
+        </form>
+    {% endif %}    
+{% endif %}
+</br>
+<h3><a href="{% url 'merchstore:list'%}">Return to List</a></h3>
 {% endblock content %}
