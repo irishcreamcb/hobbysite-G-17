@@ -16,11 +16,17 @@
 {% if request.user == object.owner.user %}
     <a href="{% url 'merchstore:item-update' object.pk %}">Update Your Product</a>
     {% else %}
+    
         <form method="POST">
             {% csrf_token %}
             {{ buy_form.as_div }}
-            <button >BUY</button>
+            {% if object.stock == 0 %}
+                <button disabled>BUY</button>
+                <h2 style="color:red">Sorry, the item is currently not available.</h2>
+            {% else %}
+            <button>BUY</button>
         </form>
+            {% endif %}  
 {% endif %}  
 
 </br>

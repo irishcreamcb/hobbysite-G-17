@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}MerchStore Transactions{% endblock title %}
+
+{% block content %}
+{% if request.user.is_authenticated %}
+<h1>TRANSACTIONS</h1>  
+<ul>
+    {% for buyer in all_buyers %}
+    <li>
+        {% if buyer != request.user %} 
+            <h3>Purchased by {{ buyer.display_name }}</h3>
+                    <ul>
+                        {% for item in all_transactions %}
+                            {% if item.buyer == buyer %}
+                            <li>
+                                Product: {{ item.product.name }} <br>
+                                Amount: {{ item.amount }} <br>
+                                Time of Transaction: {{ item.create_on }}
+                            </li>
+                        {% endif %}
+                        {% endfor %}
+                    </ul>
+        {% endif %}
+    </li>
+{% endfor %}
+</ul>
+<h3>Total Payment: {{ total }}</h3>
+
+<form action="{% url 'logout' %}" method="POST">
+    {% csrf_token %}
+    <button type="SUBMIT">LOGOUT</button>
+</form>  
+
+<h3><a href="{% url 'merchstore:list'%}">Return to List of Products</a></h3>
+
+{% else %}
+<a href="{% url 'login' %}">LOGIN</a>
+{% endif %}
+
+{% endblock content %}

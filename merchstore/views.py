@@ -54,19 +54,29 @@ class ItemDetail(DetailView):
         )
         ctx['buy_form'] = form
         return ctx
+    
+    # def over_sell(self, request):
+    #     item = self.get_object()
+    #     transaction_info = request.session.get('transaction_info')
+    #     amount = transaction_info['amount']
+    #     if amount > item.stock:
+    #         del request.session['transaction_info']
+    #         return True
+    #     else:
+    #         return False
+
 
     def dispatch(self, request, *args, **kwargs):
         item = self.get_object() 
         transaction_info = request.session.get('transaction_info')
-        print("dispatch " + item.product_status)
-        print(item.stock)
+        
         if transaction_info:
-            if self.get_user == item.owner:
+            if self.get_user() == item.owner:
                 del request.session['transaction_info']
                 return redirect('merchstore:list')
-            
             buyer = self.get_user()
             amount = transaction_info['amount']
+            
             form = TransactionForm()
             initial_transaction = form.save(commit=False)
             transaction = TransactionForm(self, initial_transaction, amount, buyer)
@@ -78,8 +88,6 @@ class ItemDetail(DetailView):
 
     def post(self, request, *args, **kwargs):
         item = self.get_object()
-        print("post " + item.product_status)
-        print(item.stock)
         form = TransactionForm(request.POST)
         if form.is_valid():
             purchase_attempt = form.save(commit=False)
@@ -92,16 +100,14 @@ class ItemDetail(DetailView):
                 return redirect('merchstore:cart')
             else:
                 request.session['transaction_info'] = {
-                    'amount': transaction.amount
-                }
+                    'amount': transaction.amount,                }
                 login_url = reverse('login') + '?next=' + request.get_full_path()
                 return redirect(login_url)
         ctx = self.get_context_data(object=item, transaction_form=form)
         return self.render_to_response(ctx)
-    
+
     def make_transaction(self, transaction, product, amount, user):
         transaction.product = product
-        transaction.product_status = product.available 
         transaction.buyer = user
         transaction.amount = amount
         product.stock -= amount
@@ -129,7 +135,7 @@ class ItemUpdate(UpdateView):
     def form_valid(self, form):
         form.save()
         product = self.object
-        product.product_status = "OUT OF STOCK" if product.stock == 0 else product.product_status
+        product.product_status = "OUT OF STOCK" if product.stock <= 0 else product.product_status
         product.save()
         return super().form_valid(form)    
 

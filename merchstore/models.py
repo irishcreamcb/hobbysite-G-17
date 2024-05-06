@@ -67,19 +67,22 @@ class Transaction(models.Model):
         related_name='purchased_product'
     )
     amount = models.IntegerField()
-    cart = "ON CART"
+    cart = "IN CART"
     pay = "TO PAY"
     ship = "TO SHIP"
     receive = "TO RECEIVE"
     delivered = "DELIVERED"
     transaction_status_choices = (
-        (cart, "On Cart"),
+        (cart, "In Cart"),
         (pay, "To Pay"),
         (ship, "To Ship"),
         (receive, "To Receive"),
         (delivered, "Delivered")
     )
-    transaction_status = models.CharField(max_length=20, choices=transaction_status_choices)
+    transaction_status = models.CharField(max_length=20, 
+                                          choices=transaction_status_choices,
+                                          default="IN CART"
+                                          )
     created_on = models.DateTimeField(auto_now_add=True)
 
 

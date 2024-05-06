@@ -28,6 +28,8 @@
 </ul>
 
 {% if request.user.is_authenticated %}
+<h3><a href="{% url 'merchstore:item-add' %}">Create My Product</a></h3>
+
 <form action="{% url 'logout' %}" method="POST">
     {% csrf_token %}
     <button type="SUBMIT">LOGOUT</button>
