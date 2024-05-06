@@ -40,8 +40,8 @@ class Product(models.Model):
         (sale, "On Sale")
     )
     product_status = models.CharField(max_length=12,
-                              choices=product_status_choices,
-                              default="AVAILABLE")
+                            choices=product_status_choices,
+                            default="AVAILABLE")
 
     def __str__(self):
         return self.name
@@ -79,16 +79,9 @@ class Transaction(models.Model):
         (receive, "To Receive"),
         (delivered, "Delivered")
     )
-    transaction_status = models.CharField(max_length=20,
-                              choices=transaction_status_choices,
-                              default="ON CART")
+    transaction_status = models.CharField(max_length=20, choices=transaction_status_choices)
     created_on = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return self.name
-    
-    class Meta:
-        abstract = True
 
     
     

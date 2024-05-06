@@ -6,6 +6,8 @@
 <h1>Title: {{ object.name }}</h1>
 <h2>Type: {{ object.Product_Type}}</h2>
 <h3>Price: {{ object.price }}</h3>
+<h3>Stock: {{ object.stock }}</h3>
+<h3>Status: {{ object.product_status }}</h3>
 <h4>Made by: {{ object.owner }}</h4>
 
 <p>{{ object.description }}</p>
@@ -16,7 +18,7 @@
     {% else %}
         <form method="POST">
             {% csrf_token %}
-            {{ form.as_div }}
+            {{ buy_form.as_div }}
             <button >BUY</button>
         </form>
     {% endif %}    
