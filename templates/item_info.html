@@ -12,8 +12,8 @@
 
 <p>{{ object.description }}</p>
 
-{% if request.user.is_authenticated %}
-    {% if request.user == object.owner.user %}
+
+{% if request.user == object.owner.user %}
     <a href="{% url 'merchstore:item-update' object.pk %}">Update Your Product</a>
     {% else %}
         <form method="POST">
@@ -21,8 +21,16 @@
             {{ buy_form.as_div }}
             <button >BUY</button>
         </form>
-    {% endif %}    
-{% endif %}
+{% endif %}  
+
 </br>
-<h3><a href="{% url 'merchstore:list'%}">Return to List</a></h3>
+<h3><a href="{% url 'merchstore:list'%}">Return to List of Products</a></h3>
+
+{% if request.user.is_authenticated %}
+    <form action="{% url 'logout' %}" method="POST">
+        {% csrf_token %}
+        <button type="SUBMIT">LOGOUT</button>
+    </form>  
+{% endif %}
+
 {% endblock content %}

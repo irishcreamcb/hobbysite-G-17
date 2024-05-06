@@ -128,20 +128,10 @@ class ItemUpdate(UpdateView):
 
     def form_valid(self, form):
         form.save()
-        item = self.get_object()
-        if item.stock == 0:
-            print("in " + item.product_status)
-            item.product_status = "OUT OF STOCK" 
-        else: 
-            item.product_status
-        item.save()
-        print("out " + item.product_status)
-        return super().form_valid(form)
-    
-    def get_success_url(self) -> str:
-        return reverse_lazy('merchstore:item-detail', args=[self.object.pk])
-    
-
+        product = self.object
+        product.product_status = "OUT OF STOCK" if product.stock == 0 else product.product_status
+        product.save()
+        return super().form_valid(form)    
 
 class CartList(ListView):
     model = Transaction 
@@ -154,6 +144,10 @@ class CartList(ListView):
         sellers = Profile.objects.all()
         ctx['purchased_items'] = purchased
         ctx['all_sellers'] = sellers
+        total = 0
+        for item in purchased:
+            total += item.amount * item.product.price
+        ctx['total'] = total
         return ctx
 
 
@@ -164,7 +158,12 @@ class TransactionList(ListView):
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         user = Profile.objects.get(user=self.request.user) 
-        sellers_items
+        sellers_items = Product.objects.filter(owner=user)
+        items_sold = Transaction.objects.filter(product__in=sellers_items)
+        customers = Profile.objects.all()
+        ctx['all_transactions'] = items_sold
+        ctx['all_buyers'] = customers
+        return ctx
 
 
     

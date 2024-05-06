@@ -9,7 +9,17 @@
         {{ form.as_div }}
         <button >CREATE</button>
     </form>
+
+    <form action="{% url 'logout' %}" method="POST">
+        {% csrf_token %}
+        <button type="SUBMIT">LOGOUT</button>
+    </form>  
+
 {% else %}
     <a href="{% url 'login' %}">LOGIN</a>
 {% endif %}
+
+<h3><a href="{% url 'merchstore:list'%}">Return to List of Products</a></h3>
+
+
 {% endblock content %}

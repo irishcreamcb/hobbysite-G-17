@@ -5,8 +5,35 @@
 {% block content %}
 {% if request.user.is_authenticated %}
 <h1>CART</h1>  
+<ul>
+    {% for seller in all_sellers %}
+    <li>
+        <h3>Purchased from {{ seller.display_name }}</h3>
+        <ul>
+            {% for item in purchased_items %}
+            {% if item.product.owner == seller %}
+            <li>
+                Product: {{ item.product.name }} <br>
+                Amount: {{ item.amount }} <br>
+                Time of Transaction: {{ item.create_on }}
+            </li>
+            {% endif %}
+        {% endfor %}
+        </ul>
+    </li>
+{% endfor %}
+</ul>
+<h3>Total Payment: {{ total }}</h3>
+
+<form action="{% url 'logout' %}" method="POST">
+    {% csrf_token %}
+    <button type="SUBMIT">LOGOUT</button>
+</form>  
+
+<h3><a href="{% url 'merchstore:list'%}">Return to List of Products</a></h3>
 
 {% else %}
-    <a href="{% url 'login' %}">LOGIN</a>
+<a href="{% url 'login' %}">LOGIN</a>
 {% endif %}
+
 {% endblock content %}
