@@ -11,11 +11,9 @@
     <body>
         <ul>
             <p>By {{ article.author }}</p>
-            <p>Published on {{ article.created_on }} | Last edited on {{ article.update_on }}</p>
+            <p>Published on {{ article.created_on }} | Last edited on {{ article.updated_on }}</p>
             <p>{{ article.entry }}</p>
         </ul>
-        
-    
 
     {% if not request.user.is_authenticated %}
 
@@ -26,11 +24,13 @@
 
     {% endif %}
 
-    {% if request.user.is_authenticated %}
+    {% if request.user.is_authenticated %}      
 
-    <!-- comment form here -->
+        {% if article.author.user == user %}
 
-    <h3><a href='{% url 'blog:edit' pk=article.pk %}'>Edit Article.</a></h3>
+            <h3><a href='{% url 'blog:edit' pk=article.pk %}'>Edit Article.</a></h3>
+
+        {% endif %}
 
     <form method="POST" action="{% url 'logout' %}">
         {% csrf_token %}

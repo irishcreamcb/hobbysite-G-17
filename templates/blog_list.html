@@ -30,7 +30,7 @@
             <p>{{ category.grouper.description }}</p>
 
             <ul>
-            {% for article in category.list %}
+            {% for article in category.list|dictsortreversed:"created_on" %}
                 <li><a href='{{ article.get_absolute_url }}'>{{ article.title }}</a></li> 
             {% endfor %}
             </ul>
@@ -44,15 +44,15 @@
     
     {% else %}
 
-        {% regroup articles_logged_out by category as all_articles %}
+    {% regroup articles_logged_out by category as all_articles %}
 
         {% for category in all_articles %}
 
-            <h3>{{ category.grouper }}</h3>
+            <h2>{{ category.grouper }}</h2>
             <p>{{ category.grouper.description }}</p>
 
             <ul>
-            {% for article in category.list %}
+            {% for article in category.list|dictsortreversed:"created_on" %}
                 <li><a href='{{ article.get_absolute_url }}'>{{ article.title }}</a></li> 
             {% endfor %}
             </ul>

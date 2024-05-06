@@ -4,7 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView
 from django.urls import reverse_lazy
 
-from .models import Article, ArticleCategory
+from .models import Article, ArticleCategory, Profile
 from .forms import ArticleForm
 
 
@@ -25,6 +25,11 @@ class ArticleDetailView(DetailView):
     model = Article
     template_name = 'blog_detail.html'
 
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx['recommended'] = Article.objects.filter(author__user=self.request.user.id)
+        return ctx
+
 
 class ArticleCreateView(LoginRequiredMixin, CreateView):
     model = Article
@@ -33,6 +38,12 @@ class ArticleCreateView(LoginRequiredMixin, CreateView):
 
     def get_success_url(self):
         return reverse_lazy('blog:list')
+    
+    def get_form(self, form_class=None):
+        profile = Profile.objects.get(user=self.request.user)
+        form = super().get_form(form_class)
+        form.fields['author'].choices = [(profile.id, profile.display_name)]
+        return form
 
 
 class ArticleUpdateView(LoginRequiredMixin, UpdateView):
