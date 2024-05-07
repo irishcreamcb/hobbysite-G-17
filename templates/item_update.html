@@ -8,12 +8,12 @@
     <form method="POST">
         {% csrf_token %}
         {{ form.as_div }}
-        <button >UPDATE</button>
+        <button class="btn-yassified">UPDATE</button>
     </form>
 
     <form action="{% url 'logout' %}" method="POST">
         {% csrf_token %}
-        <button type="SUBMIT">LOGOUT</button>
+        <button type="SUBMIT" class="btn-yassified">LOGOUT</button>
     </form>  
 
 {% else %}

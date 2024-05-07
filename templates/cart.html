@@ -14,10 +14,10 @@
                     {% for item in purchased_items %}
                         {% if item.product.owner == seller %}
                         <li>
-                            Product: {{ item.product.name }} <br>
-                            Amount: {{ item.amount }} <br>
-                            Time of Transaction: {{ item.created_on }} <br>
-                            Status: {{ item.transaction_status }} <br>
+                            <b>Product: </b>{{ item.product.name }} <br>
+                            <b>Amount: </b>{{ item.amount }} <br>
+                            <b>Time of Transaction: </b>{{ item.created_on }} <br>
+                            <b>Status: </b>{{ item.transaction_status }} <br>
                         </li>
                         {% endif %}
                     {% endfor %}

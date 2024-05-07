@@ -4,9 +4,12 @@
 
 {% block content %}
 <h1>Welcome to our Merchandise Store!</h1>
-<h3><a href="{% url 'merchstore:item-add' %}">Create My Product</a></h3>
-<h3><a href="{% url 'merchstore:cart' %}">View My Cart</a></h3>
-<h3><a href="{% url 'merchstore:transaction-list' %}">View My Transactions</a></h3>
+<ul class="nav nav-tabs">
+    <li><a href="{% url 'merchstore:item-add' %}">Create My Product</a></li>
+    <li><a href="{% url 'merchstore:cart' %}">View My Cart</a></li>
+    <li><a href="{% url 'merchstore:transaction-list' %}">View My Transactions</a></li>
+</ul>
+
 <h2>Products</h2>
 <ul>
     {% for product in list.buy %}
@@ -34,7 +37,7 @@
 
 <form action="{% url 'logout' %}" method="POST">
     {% csrf_token %}
-    <button type="SUBMIT">LOGOUT</button>
+    <button type="SUBMIT" class="btn-yassified" p-2>LOGOUT</button>
 </form>  
 {% endif %}
 
