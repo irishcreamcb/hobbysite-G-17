@@ -5,19 +5,26 @@
 {% endblock title %} 
 {% block content %} 
     <h1><a href="/commissions/list">Commission List</a></h1>
-    <h2>{{ commission.title }}</h2>
+    <h2>{{ commission.title }}, commissioned by {{ commission.creator }} </h2>
     <h3>
-        People Needed: {{ commission.people_required }}<br>
-        Date Created: {{ commission.created_on }}<br>
-        Last Updated: {{ commission.updated_on }}
+        Total People Needed: <br>
+        Open Slots: {% if commission.status != 'O' %}0{% else %} {% endif %}
     </h3>
-    <p>{{ commission.description }}</p>
+    <p>
+        Date Created: {{ commission.created_on }}<br>
+        Last Updated: {{ commission.updated_on }}<br>
+        {{ commission.description }}
+    </p>
+    <h3>Jobs:</h3>
     <ul>
         {% for job in commission.jobs.all %}
             <li>
-                {{ job.entry }}<br> 
-                {{ job.created_on }}, last updated {{ job.updated_on }}
+                {{ job.role }}, People Needed: {{ job.manpower_required }}<br> 
             </li>
         {% endfor %}
     </ul>
+    {% if commission.creator.user == request.user %}
+        <h4><a href="{% url 'commissions:commission-update' pk=commission.pk %}">Update your commission</a></h4>
+    {% else %} 
+    {% endif %} 
 {% endblock content %} 
