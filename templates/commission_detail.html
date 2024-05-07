@@ -7,8 +7,8 @@
     <h1><a href="/commissions/list">Commission List</a></h1>
     <h2>{{ commission.title }}, commissioned by {{ commission.creator }} </h2>
     <h3>
-        Total People Needed: <br>
-        Open Slots: {% if commission.status != 'O' %}0{% else %} {% endif %}
+        Total People Needed: {{ manpower }} <br>
+        Open Slots: {% if commission.status != 'O' %}0{% else %}{{ remaining }}{% endif %}
     </h3>
     <p>
         Date Created: {{ commission.created_on }}<br>
@@ -19,7 +19,9 @@
     <ul>
         {% for job in commission.jobs.all %}
             <li>
-                {{ job.role }}, People Needed: {{ job.manpower_required }}<br> 
+                {{ job.role }}<br>
+                Total People Needed: {{ job.manpower_required }}<br> 
+                Open Slots: {{  }}
             </li>
         {% endfor %}
     </ul>

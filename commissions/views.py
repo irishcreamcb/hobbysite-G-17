@@ -4,7 +4,7 @@ from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
 
-from .models import Commission, JobApplication
+from .models import Commission, JobApplication, Job
 from .forms import JobFormset
 
 
@@ -17,8 +17,24 @@ class CommissionDetailView(DetailView):
     model = Commission 
     template_name = 'commission_detail.html'
 
+    def get_context_data(self, **kwargs): 
+        self.object = self.get_object()
+        comm = self.object
+        jobs = Job.objects.filter(commission=comm)
+        total_manpower = 0
+        difference = 0 
+        for x in jobs: 
+            total_manpower += x.manpower_required
+            applications = JobApplication.objects.filter(job=x)
+            for i in applications: 
+                difference += 1
+        ctx = super().get_context_data(**kwargs)
+        ctx['manpower'] = total_manpower
+        ctx['remaining'] = total_manpower - difference 
+        return ctx 
 
-class CommissionCreateView(CreateView, LoginRequiredMixin): 
+
+class CommissionCreateView(CreateView, LoginRequiredMixin): #yoinked from: https://swapps.com/blog/working-with-nested-forms-with-django/
     model = Commission
     template_name = 'commission_form.html' 
     fields = '__all__'
@@ -54,7 +70,28 @@ class CommissionCreateView(CreateView, LoginRequiredMixin):
 
 class CommissionUpdateView(UpdateView, LoginRequiredMixin): 
     model = Commission
-    template_name = 'commission_update.html'
+    template_name = 'commission_form.html' 
+    fields = '__all__'
+
+    def get_context_data(self, **kwargs): 
+        data = super().get_context_data(**kwargs)
+        if self.request.POST: 
+            data['Jobs'] = JobFormset(self.request.POST, instance=self.object)
+        else: 
+            data['Jobs'] = JobFormset(instance=self.object)
+        return data 
+    
+    def form_valid(self, form): 
+        context = self.get_context_data() 
+        jobs = context['Jobs']
+        self.object = form.save() 
+        if jobs.is_valid(): 
+            jobs.instance = self.object 
+            jobs.save() 
+        return super().form_valid(form) 
+    
+    def get_success_url(self):
+        return reverse('commissions:commission-list')
 
 
 class JobApplicationCreateView(CreateView, LoginRequiredMixin): 
