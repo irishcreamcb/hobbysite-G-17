@@ -21,10 +21,11 @@
             <li>
                 {{ job.role }}<br>
                 Total People Needed: {{ job.manpower_required }}<br> 
-                Open Slots: {{  }}
+                Open Slots: 
             </li>
         {% endfor %}
     </ul>
+    <a href="{% url 'commissions:job-application' %}">Apply to a Job</a>
     {% if commission.creator.user == request.user %}
         <h4><a href="{% url 'commissions:commission-update' pk=commission.pk %}">Update your commission</a></h4>
     {% else %} 

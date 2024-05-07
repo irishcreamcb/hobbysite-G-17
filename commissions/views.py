@@ -1,3 +1,4 @@
+from typing import Any
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView
@@ -5,7 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
 
 from .models import Commission, JobApplication, Job
-from .forms import JobFormset
+from .forms import JobFormset, CommissionForm, JobApplicationForm
 
 
 class CommissionListView(ListView): 
@@ -37,7 +38,7 @@ class CommissionDetailView(DetailView):
 class CommissionCreateView(CreateView, LoginRequiredMixin): #yoinked from: https://swapps.com/blog/working-with-nested-forms-with-django/
     model = Commission
     template_name = 'commission_form.html' 
-    fields = '__all__'
+    form_class = CommissionForm
 
     def get_context_data(self, **kwargs): 
         data = super().get_context_data(**kwargs)
@@ -56,16 +57,13 @@ class CommissionCreateView(CreateView, LoginRequiredMixin): #yoinked from: https
             jobs.save() 
         return super().form_valid(form) 
     
+    def get_initial(self):
+        initial = super().get_initial()
+        initial['creator'] = self.request.user.profile
+        return initial
+    
     def get_success_url(self):
         return reverse('commissions:commission-list')
-
-    #def __init__(self, *args, creator, **kwargs): #yoinked from https://forum.djangoproject.com/t/best-way-to-use-a-created-by-type-field/3067
-    #    super().__init__(*args, **kwargs)
-    #    self.creator = creator
-
-    #def save(self, *args, **kwargs):
-    #    self.instance.creator = self.creator
-    #    return super().save(*args, **kwargs)
     
 
 class CommissionUpdateView(UpdateView, LoginRequiredMixin): 
@@ -97,3 +95,12 @@ class CommissionUpdateView(UpdateView, LoginRequiredMixin):
 class JobApplicationCreateView(CreateView, LoginRequiredMixin): 
     model = JobApplication
     template_name = 'job_application.html'
+    form_class = JobApplicationForm
+
+    def get_initial(self):
+        initial = super().get_initial()
+        initial['applicant'] = self.request.user.profile
+        return initial
+
+    def get_success_url(self):
+        return reverse('commissions:commission-list')
