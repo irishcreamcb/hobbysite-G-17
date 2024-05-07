@@ -7,7 +7,7 @@ from user_management.models import Profile
 class TransactionForm(ModelForm):
     class Meta:
         model = Transaction
-        fields = ('amount', 'transaction_status')
+        fields = ('amount',)
 
 
 class ItemForm(ModelForm):

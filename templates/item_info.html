@@ -23,7 +23,10 @@
             {% if errors.amount_exceeded %}
                 <h2 style="color:red">Sorry, amount exceeds current stock.</h2>
             {% else %}
-                <p>boo</p>
+            {% endif %}
+            {% if errors.negative_amount %}
+                <h2 style="color:red">Please input a valid amount.</h2>
+            {% else %}
             {% endif %}
             {% if object.stock == 0 %}
                 <button disabled>BUY</button>

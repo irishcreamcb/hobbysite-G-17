@@ -16,7 +16,8 @@
                         <li>
                             Product: {{ item.product.name }} <br>
                             Amount: {{ item.amount }} <br>
-                            Time of Transaction: {{ item.create_on }}
+                            Time of Transaction: {{ item.created_on }} <br>
+                            Status: {{ item.transaction_status }} <br>
                         </li>
                     {% endif %}
                     {% endfor %}

@@ -7,22 +7,24 @@
 <h1>CART</h1>  
 <ul>
     {% for seller in all_sellers %}
-    <li>
-        <h3>Purchased from {{ seller.display_name }}</h3>
-        <ul>
-            {% for item in purchased_items %}
-            {% if item.product.owner == seller %}
+        {% if seller.user != request.user %}
             <li>
-                Product: {{ item.product.name }} <br>
-                Amount: {{ item.amount }} <br>
-                Time of Transaction: {{ item.created_on }}
-                Status: {{ item.transaction_status }}
+                <h3>Purchased from {{ seller.display_name }}</h3>
+                <ul>
+                    {% for item in purchased_items %}
+                        {% if item.product.owner == seller %}
+                        <li>
+                            Product: {{ item.product.name }} <br>
+                            Amount: {{ item.amount }} <br>
+                            Time of Transaction: {{ item.created_on }} <br>
+                            Status: {{ item.transaction_status }} <br>
+                        </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
             </li>
-            {% endif %}
-        {% endfor %}
-        </ul>
-    </li>
-{% endfor %}
+        {% endif %}
+    {% endfor %}
 </ul>
 <h3>Total Payment: {{ total }}</h3>
 

@@ -59,17 +59,6 @@ class ItemDetail(DetailView):
         )
         ctx['buy_form'] = form
         return ctx
-    
-    # def over_sell(self, request):
-    #     item = self.get_object()
-    #     transaction_info = request.session.get('transaction_info')
-    #     amount = transaction_info['amount']
-    #     if amount > item.stock:
-    #         del request.session['transaction_info']
-    #         return True
-    #     else:
-    #         return False
-
 
     def dispatch(self, request, *args, **kwargs):
         item = self.get_object() 
@@ -103,11 +92,15 @@ class ItemDetail(DetailView):
             amount = purchase_attempt.amount
             if request.user.is_authenticated: 
                 buyer = self.get_user()
-                
                 if amount > item.stock:
                     ctx["errors"]["amount_exceeded"] = True
                     return render(request, self.template_name, context=ctx)
+                if amount <= 0:
+                    ctx["errors"]["negative_amount"] = True
+                    return render(request, self.template_name, context=ctx)
                 transaction = self.make_transaction(purchase_attempt, item, amount, buyer)
+                if item.stock <= 0:
+                    item.product_status = "OUT OF STOCK"
                 transaction.save()
                 item.save()
                 return redirect('merchstore:cart')
@@ -181,6 +174,10 @@ class TransactionList(ListView):
         customers = Profile.objects.all()
         ctx['all_transactions'] = items_sold
         ctx['all_buyers'] = customers
+        total = 0
+        for item in items_sold:
+            total += item.amount * item.product.price
+        ctx['total'] = total
         return ctx
 
 
