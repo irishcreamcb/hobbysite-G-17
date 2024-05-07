@@ -2,25 +2,23 @@
 {% block title %}Articles{% endblock %}
 {% block content %}
 {% if user.is_authenticated %}
-    <a href="{% url 'wiki:add' %}">Create an article</a>
+    <a class="btn btn-sm btn-yassified p-2 mb-3" href="{% url 'wiki:add' %}"><i class="fa fa-plus" aria-hidden="true"></i> Create an article</a>
     <h1>My Articles</h1>
-    <ul>
+    <ul class="list-group list-group-flush mb-5">
     {% for article in my_articles %}
-        <li><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></li>
+        <li class="list-group-item"><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></li>
     {% endfor %}
     </ul>
-    <h1>All Articles</h1>
-    <ul>
+    
 {% endif %}
+<h1>All Articles</h1>
 {% regroup all_articles by category as categories %}
+<ul class="list-group list-group-flush">
 {% for category in categories %}
-    <li>{{ category.grouper }}</li>
-    <ul>
+    <li class="list-group-item list-group-item-secondary fw-bold">{{ category.grouper }}</li>
     {% for article in category.list %}
-        <li><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></li>
+        <li class="list-group-item"><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></li>
     {% endfor %}
-    </ul>
 {% endfor %}
-
 </ul>
 {% endblock %}
