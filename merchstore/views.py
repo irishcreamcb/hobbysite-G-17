@@ -21,9 +21,14 @@ class ItemList(ListView):
     
     def get_queryset(self):
         sets = {
-            'buy': Product.objects.exclude(owner__user=self.request.user),
-            'own': Product.objects.filter(owner__user=self.request.user),    
-        }        
+            "buy": Product.objects.all(),
+            "own": []
+        }
+        if self.request.user.is_authenticated:
+            sets = {
+                'buy': Product.objects.exclude(owner__user=self.request.user),
+                'own': Product.objects.filter(owner__user=self.request.user),    
+            }
         return sets
 
 
@@ -87,19 +92,21 @@ class ItemDetail(DetailView):
         return super().dispatch(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
-        item = self.get_object()
+        self.object = self.get_object()
+        item = self.object
         form = TransactionForm(request.POST)
+        ctx = self.get_context_data(**kwargs)
+        ctx["errors"] = {}
+        
         if form.is_valid():
             purchase_attempt = form.save(commit=False)
             amount = purchase_attempt.amount
             if request.user.is_authenticated: 
                 buyer = self.get_user()
-                # if amount > item.stock:
-                #     # context = self.get_context_data(transaction_form=form)
-                #     # context.update({"my_message": "Soemthign went wrong"})
-                #     # return self.render_to_response(context)
-                #     return redirect('merchstore:item-update', args=[self.object.pk])
-                 
+                
+                if amount > item.stock:
+                    ctx["errors"]["amount_exceeded"] = True
+                    return render(request, self.template_name, context=ctx)
                 transaction = self.make_transaction(purchase_attempt, item, amount, buyer)
                 transaction.save()
                 item.save()
@@ -109,8 +116,7 @@ class ItemDetail(DetailView):
                     'amount': amount,                }
                 login_url = reverse('login') + '?next=' + request.get_full_path()
                 return redirect(login_url)
-        ctx = self.get_context_data(object=item, transaction_form=form)
-        return self.render_to_response(ctx)
+        return render(request, self.template_name, context=ctx)
 
     def make_transaction(self, transaction, product, amount, user):
         transaction.product = product
