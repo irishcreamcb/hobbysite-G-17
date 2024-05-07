@@ -53,7 +53,7 @@ class ArticleDetailView(DetailView):
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         ctx["article"] = Article.objects.get(pk=self.object.pk)
-        ctx["read_more"] = Article.objects.exclude(pk=self.object.pk)
+        ctx["read_more"] = Article.objects.filter(category=self.object.category).exclude(pk=self.object.pk)
         ctx["form"] = CommentForm()
         ctx["comments"] = Article.objects.get(pk=self.object.pk).comments.all()
         return ctx
