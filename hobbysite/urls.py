@@ -16,13 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-
+from .views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('merchstore.urls', namespace = 'merchsotre')),
-    path('', include('commissions.urls', namespace = 'commissions')),
-    path('', include('blog.urls', namespace = 'blog')), 
-    path('', include('wiki.urls', namespace = 'wiki')),  
-    path('/user_management', include('django.contrib.auth.urls')),
+    path('', IndexView.as_view()),
+    path('merchstore/', include('merchstore.urls', namespace = 'merchstore')),
+    path('commissions/', include('commissions.urls', namespace = 'commissions')),
+    path('blog/', include('blog.urls', namespace = 'blog')), 
+    path('wiki/', include('wiki.urls', namespace = 'wiki')),  
+    path('user_management/', include('django.contrib.auth.urls')),
 ]
