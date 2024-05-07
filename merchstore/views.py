@@ -16,13 +16,13 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 # Create your views here.
 class ItemList(ListView):
     context_object_name = "list"
-    model = Product
+    # model = Product
     template_name = "items_list.html"
     
     def get_queryset(self):
         sets = {
-            'buy': Product.objects.exclude(owner_id__user=self.request.user),
-            'own':Product.objects.filter(owner_id__user=self.request.user),    
+            'buy': Product.objects.exclude(owner__user=self.request.user),
+            'own': Product.objects.filter(owner__user=self.request.user),    
         }        
         return sets
 
@@ -94,13 +94,19 @@ class ItemDetail(DetailView):
             amount = purchase_attempt.amount
             if request.user.is_authenticated: 
                 buyer = self.get_user()
+                # if amount > item.stock:
+                #     # context = self.get_context_data(transaction_form=form)
+                #     # context.update({"my_message": "Soemthign went wrong"})
+                #     # return self.render_to_response(context)
+                #     return redirect('merchstore:item-update', args=[self.object.pk])
+                 
                 transaction = self.make_transaction(purchase_attempt, item, amount, buyer)
                 transaction.save()
                 item.save()
                 return redirect('merchstore:cart')
             else:
                 request.session['transaction_info'] = {
-                    'amount': transaction.amount,                }
+                    'amount': amount,                }
                 login_url = reverse('login') + '?next=' + request.get_full_path()
                 return redirect(login_url)
         ctx = self.get_context_data(object=item, transaction_form=form)

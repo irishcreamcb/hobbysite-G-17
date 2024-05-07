@@ -7,22 +7,23 @@
 <h1>TRANSACTIONS</h1>  
 <ul>
     {% for buyer in all_buyers %}
-    <li>
-        {% if buyer != request.user %} 
-            <h3>Purchased by {{ buyer.display_name }}</h3>
-                    <ul>
-                        {% for item in all_transactions %}
-                            {% if item.buyer == buyer %}
-                            <li>
-                                Product: {{ item.product.name }} <br>
-                                Amount: {{ item.amount }} <br>
-                                Time of Transaction: {{ item.create_on }}
-                            </li>
-                        {% endif %}
-                        {% endfor %}
-                    </ul>
+        {% if buyer.user != request.user %} 
+            <li>
+                <h3>Purchased by {{ buyer.display_name }}</h3>
+                <ul>
+                    {% for item in all_transactions %}
+                        {% if item.buyer == buyer %}
+                        <li>
+                            Product: {{ item.product.name }} <br>
+                            Amount: {{ item.amount }} <br>
+                            Time of Transaction: {{ item.create_on }}
+                        </li>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+            </li>
         {% endif %}
-    </li>
+        
 {% endfor %}
 </ul>
 <h3>Total Payment: {{ total }}</h3>
