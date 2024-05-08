@@ -16,7 +16,7 @@ class ArticleCategory(models.Model):
 
 class Article(models.Model):
     title = models.CharField(max_length=255)
-    author = models.ForeignKey(Profile, null=True, on_delete=models.SET_NULL)
+    author = models.ForeignKey(Profile, null=True, on_delete=models.SET_NULL, related_name='wiki_articles')
     category = models.ForeignKey(ArticleCategory, null=True, on_delete=models.SET_NULL)
     entry = models.TextField()
     header_image = models.ImageField(upload_to='images/')
@@ -33,7 +33,7 @@ class Article(models.Model):
         ordering = ['-created_on']
 
 class Comment(models.Model):
-    author = models.ForeignKey(Profile, null=True, on_delete=models.SET_NULL)
+    author = models.ForeignKey(Profile, null=True, on_delete=models.SET_NULL, related_name='wiki_comments')
     article = models.ForeignKey(Article, null=True, on_delete=models.CASCADE, related_name='comments')
     entry = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
