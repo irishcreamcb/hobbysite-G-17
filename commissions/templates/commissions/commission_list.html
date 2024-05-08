@@ -8,7 +8,7 @@
     <h1>Your Commissions</h1>
     <h2><a href="{% url 'commissions:commission-create' %}">Create a new Commission</a></h2>
     <h3>
-        <ul class="list-group list-group-flush mb-5">
+        <ul class="nav nav-tabs mb-3">
             {% for commission in object_list %}
             {% if commission.creator.user == request.user %}
                 <li class="list-group-item"><a href="{{ commission.get_absolute_url }}">{{ commission.title }}</a></li>
@@ -19,7 +19,7 @@
     </h3>
     <h1>Job Applications</h1>
     <h3>
-        <ul class="list-group list-group-flush mb-5">
+        <ul class="nav nav-tabs mb-3">
             {% for commission in applied_by_user %} 
                 <li class="list-group-item"><a href="{{ commission.get_absolute_url }}">{{ commission.title }}</a></li>
             {% endfor %}
@@ -30,7 +30,7 @@
 <h1>Commission List</h1>
 <h2>Open Commissions</h2>
 <h3>
-    <ul class="nav nav-tabs mb-3">
+    <ul class="list-group list-group-flush mb-5">
         {% for commission in object_list %}
         {% if commission.status == 'O' %} 
             <li class="nav-item"><a class="nav-link active" href="{{ commission.get_absolute_url }}">{{ commission.title }}</a></li>
@@ -41,7 +41,7 @@
 </h3>
 <h2>Full Commissions</h2>
 <h3>
-    <ul class="nav nav-tabs mb-3">
+    <ul class="list-group list-group-flush mb-5">
         {% for commission in object_list %}
         {% if commission.status == 'F' %} 
             <li class="nav-item"><a class="nav-link active" href="{{ commission.get_absolute_url }}">{{ commission.title }}</a></li>
@@ -52,7 +52,7 @@
 </h3>
 <h2>Completed Commissions</h2>
 <h3>
-    <ul class="nav nav-tabs mb-3">
+    <ul class="list-group list-group-flush mb-5">
         {% for commission in object_list %}
         {% if commission.status == 'C' %} 
             <li class="nav-item"><a class="nav-link active" href="{{ commission.get_absolute_url }}">{{ commission.title }}</a></li>
@@ -63,7 +63,7 @@
 </h3>
 <h2>Discontinued Commissions</h2>
 <h3>
-    <ul class="nav nav-tabs mb-3">
+    <ul class="list-group list-group-flush mb-5">
         {% for commission in object_list %}
         {% if commission.status == 'D' %} 
             <li class="nav-item"><a class="nav-link active" href="{{ commission.get_absolute_url }}">{{ commission.title }}</a></li>

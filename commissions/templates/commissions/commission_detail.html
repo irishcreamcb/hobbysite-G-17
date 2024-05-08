@@ -4,11 +4,11 @@
     {{ commission.title }}
 {% endblock title %} 
 {% block content %} 
-    <h1><a href="/commissions/list">Commission List</a></h1>
     <h2>{{ commission.title }}, commissioned by {{ commission.creator }} </h2>
     <h3>
         Total People Needed: {{ manpower }} <br>
-        Open Slots: {% if commission.status != 'O' %}0{% else %}{{ remaining }}{% endif %}
+        Open Slots: {% if commission.status != 'O' %}0{% else %}{{ remaining }}{% endif %} <br> 
+        Status: {% if commission.status == 'O' %}Open{% elif commission.status == 'F' %}Full{% elif commission.status == 'C' %}Complete{% else %}Discontinued{% endif %}
     </h3>
     <p class="mt-4 mb-5">
         Date Created: {{ commission.created_on }}<br>
