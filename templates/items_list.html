@@ -13,7 +13,7 @@
 <h2>Products</h2>
 <ul>
     {% for product in list.buy %}
-    <li>
+    <li class="list-group list-group-flush">
         <a href="{{ product.get_absolute_url }}">
             {{ product.name }}
         </a>
@@ -24,7 +24,7 @@
 <h2>My Own Stuffs</h2>
 <ul>
     {% for product in list.own %}
-    <li>
+    <li class="list-group list-group-flush">
         <a href="{{ product.get_absolute_url }}">
             {{ product.name }}
         </a>
