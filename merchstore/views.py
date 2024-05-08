@@ -17,7 +17,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 class ItemList(ListView):
     context_object_name = "list"
     # model = Product
-    template_name = "items_list.html"
+    template_name = "merchstore/items_list.html"
     
     def get_queryset(self):
         sets = {
@@ -34,7 +34,7 @@ class ItemList(ListView):
 
 class ItemDetail(DetailView):
     model = Product
-    template_name = "item_info.html"
+    template_name = "merchstore/item_info.html"
     form_class = TransactionForm
     
     def get_user(self):
@@ -130,7 +130,7 @@ class ItemDetail(DetailView):
 class ItemCreate(LoginRequiredMixin, CreateView):
     model = Product
     form_class = ItemForm
-    template_name = "item_create.html"
+    template_name = "merchstore/item_create.html"
     
     def get_initial(self):
         initial = super().get_initial()
@@ -140,7 +140,7 @@ class ItemCreate(LoginRequiredMixin, CreateView):
     
 class ItemUpdate(UpdateView):
     model = Product
-    template_name = "item_update.html"
+    template_name = "merchstore/item_update.html"
     form_class = ItemForm
 
     def form_valid(self, form):
@@ -152,7 +152,7 @@ class ItemUpdate(UpdateView):
 
 class CartList(ListView):
     model = Transaction 
-    template_name = "cart.html"
+    template_name = "merchstore/cart.html"
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
@@ -170,7 +170,7 @@ class CartList(ListView):
 
 class TransactionList(ListView):
     model = Transaction
-    template_name = "transaction.html"
+    template_name = "merchstore/transaction.html"
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
