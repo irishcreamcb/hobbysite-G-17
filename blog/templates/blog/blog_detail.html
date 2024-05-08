@@ -8,6 +8,9 @@
     <head>
         <h2>{{ object }}</h2>
     </head>
+    {% if object.header %}
+	    <img src="{{ object.header.url }}" class="img-fluid">
+    {% endif %}
     <body>
         <ul>
             <p>By {{ article.author }}</p>
@@ -18,7 +21,7 @@
     <h3>Comments</h3>
 
     {% if request.user.is_authenticated %}
-        <form method="POST">
+        <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             {{ comment_form }}
             <button>Submit</button>
