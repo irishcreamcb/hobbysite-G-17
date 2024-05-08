@@ -1,0 +1,22 @@
+<html lang="en-US">
+    {% extends "base.html" %}
+    {% block title %}Blog{% endblock title %}
+    {% block content %}
+        {% if request.user.is_authenticated %}
+            <head>
+                <h1>Edit Blog Article</h1>
+            </head>
+            <body>
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ form }}
+                    <input class="btn btn-yassified" type="submit" value="Submit">
+                </form>
+                <form method="POST" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button type="submit">LOG OUT</button>
+                </form>
+            </body>
+            {% endif %}
+    {% endblock content %}
+</html>

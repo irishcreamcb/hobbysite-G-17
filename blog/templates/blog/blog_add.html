@@ -1,0 +1,18 @@
+<html lang="en-US">
+    {% extends "base.html" %}
+    {% block title %}Blog{% endblock title %}
+    {% block content %}
+        {% if request.user.is_authenticated %}
+            <head>
+                <h1>Create Blog Article</h1>
+            </head>
+            <body>
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form }}
+                    <input class="btn btn-yassified" type="submit" value="Submit">
+                </form>
+            </body>
+            {% endif %}
+    {% endblock content %}
+</html>
