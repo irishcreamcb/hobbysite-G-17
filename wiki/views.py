@@ -68,3 +68,8 @@ class ArticleDetailView(DetailView):
             comment.save()
             form = CommentForm()
         return self.get(self, request)
+
+class ImageGalleryView(ListView):
+    template_name = 'wiki/images_grid.html'
+    model = Article
+    context_object_name = 'articles'
