@@ -19,14 +19,14 @@
     <ul>
         {% for job in commission.jobs.all %}
             <li>
-                {{ job.role }}<br>
+                {{ job.role }}: {% if job.status == 'F' %}Full{% else %}Open{% endif %}<br>
                 Total People Needed: {{ job.manpower_required }}<br> 
-                Open Slots: <br> 
-                {% if request.user != commission.creator.user %} 
+                {% if request.user != commission.creator.user and job.status != 'F' %} 
                 <a href="{% url 'commissions:job-application' %}">Apply to a Job</a>
                 {% else %} 
-                {% endif %} 
+                {% endif %}
             </li>
+            <br>
         {% endfor %}
     </ul>
     {% if commission.creator.user == request.user %}

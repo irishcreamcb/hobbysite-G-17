@@ -45,9 +45,7 @@ class CommissionDetailView(DetailView):
         total_manpower = 0
         difference = 0 
 
-        job_statuses = {} 
         for x in jobs:  
-            job_statuses[x.role] = False 
             total_manpower += x.manpower_required
             job_taken = 0 
             applications = JobApplication.objects.filter(job=x)
@@ -56,7 +54,6 @@ class CommissionDetailView(DetailView):
                     difference += 1
                     job_taken += 1 
             if job_taken == x.manpower_required: 
-                job_statuses[x.role] = True 
                 x.status = 'F' 
                 x.save()  
 
@@ -64,7 +61,6 @@ class CommissionDetailView(DetailView):
 
         ctx['manpower'] = total_manpower
         ctx['remaining'] = total_manpower - difference 
-        ctx['statuses'] = job_statuses 
 
         return ctx 
 

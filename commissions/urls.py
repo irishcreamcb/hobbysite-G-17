@@ -3,11 +3,11 @@ from .views import CommissionListView, CommissionDetailView, CommissionUpdateVie
 
 
 urlpatterns = [
-    path('commissions/list', CommissionListView.as_view(), name='commission-list'),
-    path('commissions/detail/<pk>', CommissionDetailView.as_view(), name='commission-detail'), 
-    path('commissions/<pk>/edit', CommissionUpdateView.as_view(), name='commission-update'), 
-    path('commissions/add', CommissionCreateView.as_view(), name='commission-create'), 
-    path('commissions/job/apply', JobApplicationCreateView.as_view(), name='job-application'),
+    path('list', CommissionListView.as_view(), name='commission-list'),
+    path('<int:pk>', CommissionDetailView.as_view(), name='commission-detail'), 
+    path('<int:pk>/edit', CommissionUpdateView.as_view(), name='commission-update'), 
+    path('add', CommissionCreateView.as_view(), name='commission-create'), 
+    path('job/apply', JobApplicationCreateView.as_view(), name='job-application'),
 ]
 
 app_name = 'commissions'

@@ -21,7 +21,7 @@
     <h3>
         <ul>
             {% for commission in applied_by_user %} 
-                <li><a href="{{ application.job.commission.get_absolute_url }}">{{ commission.title }}</a></li>
+                <li><a href="{{ commission.get_absolute_url }}">{{ commission.title }}</a></li>
             {% endfor %}
         </ul>
     </h3>

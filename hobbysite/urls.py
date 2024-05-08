@@ -20,6 +20,6 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('commissions.urls', namespace = 'commissions')),
+    path('commissions/', include('commissions.urls', namespace = 'commissions')),
     path('user_management', include('django.contrib.auth.urls'))
 ]
