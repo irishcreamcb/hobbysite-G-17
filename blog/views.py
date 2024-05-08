@@ -4,7 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView
 from django.urls import reverse_lazy
 
-from .models import Article, Profile, Comment
+from .models import Article, Profile
 from .forms import ArticleForm, CommentForm
 
 
