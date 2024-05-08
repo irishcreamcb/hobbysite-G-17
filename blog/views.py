@@ -56,6 +56,8 @@ class ArticleCreateView(LoginRequiredMixin, CreateView):
     def get_form(self, form_class=None):
         profile = Profile.objects.get(user=self.request.user)
         form = super().get_form(form_class)
+        for field in form.fields.values():
+            field.widget.attrs.update({'class': 'form-control'})
         form.fields['author'].choices = [(profile.id, profile.display_name)]
         return form
 
@@ -69,7 +71,8 @@ class ArticleUpdateView(LoginRequiredMixin, UpdateView):
         return reverse_lazy('blog:detail', kwargs={'pk': self.object.pk })
     
     def get_form(self, form_class=None):
-        profile = Profile.objects.get(user=self.request.user)
         form = super().get_form(form_class)
-        form.fields['author'].choices = [(profile.id, profile.display_name)]
+        for field in form.fields.values():
+            field.widget.attrs.update({'class': 'form-control'})
+        form.fields['author'].disabled = True
         return form

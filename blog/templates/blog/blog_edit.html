@@ -10,7 +10,7 @@
                 <form method="POST">
                     {% csrf_token %}
                     {{ form }}
-                    <button>Submit</button>
+                    <input class="btn btn-yassified" type="submit" value="Submit">
                 </form>
                 <form method="POST" action="{% url 'logout' %}">
                     {% csrf_token %}

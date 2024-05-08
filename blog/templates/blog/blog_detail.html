@@ -1,70 +1,60 @@
-<html lang="en-US">
-    {% extends "base.html" %}
-    {% block title %}Blog{% endblock title %}
-    {% block content %}
-    <head>
-        <h1><a href='/blog/articles'>Return to All Articles</a></h1>
-    </head>
-    <head>
-        <h2>{{ object }}</h2>
-    </head>
-    {% if object.header %}
-	    <img src="{{ object.header.url }}" class="img-fluid">
-    {% endif %}
-    <body>
-        <ul>
-            <p>By {{ article.author }}</p>
-            <p>Published on {{ article.created_on }} | Last edited on {{ article.updated_on }}</p>
-            <p>{{ article.entry }}</p>
-        </ul>
+{% extends 'base.html' %}
+{% block title %}{{ article.title }}{% endblock %}
+{% block content %}
+<a class="btn btn-sm btn-yassified p-2 mb-3" href="{% url 'blog:list' %}"><i class="fa fa-chevron-left" aria-hidden="true"></i> Back</a>
+{% if article.author.user == user %}
+<a class="btn btn-sm btn-yassified p-2 mb-3" href="{% url 'blog:edit' pk=article.pk %}"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a>
+{% endif %}
 
-    <h3>Comments</h3>
+<h2>{{ object }}</h2>
 
-    {% if request.user.is_authenticated %}
-        <form method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ comment_form }}
-            <button>Submit</button>
-        </form>
-    {% endif %}
+<small><strong>By {{ article.author }}</strong></small><br>
+<small>Published on <strong>{{ article.created_on }}</strong> | Last edited on <strong>{{ article.updated_on }}</strong></small><br>
 
-    {% for comment in comments %}
+<hr>
 
-            <p><strong><u>{{ comment.author }}</u></strong>
-             | Commented on {{ comment.created_on }} 
-             | Last Edited on {{ comment.updated_on}}</p>
-            <p>{{ comment.entry }}</p>
+{% if object.header %}
+    <img src="{{ object.header.url }}" class="img-fluid">
+{% endif %}
 
+<p class="mt-4 mb-5">{{ article.entry }}</p>
+
+<h5>More articles by {{ article.author }}</h5>
+    {% for article in related_articles %}
+        <li class="list-group-item"><a href='{{ article.get_absolute_url }}'>{{ article.title }} in {{ article.category }}</a></li> 
     {% endfor %}
 
-    <h3>More articles by {{ article.author }}</h3>
-        <ul>
-            {% for article in related_articles %}
-                <li><a href='{{ article.get_absolute_url }}'>{{ article.title }} in {{ article.category }}</a></li> 
-            {% endfor %}
-        </ul>
-    {% if not request.user.is_authenticated %}
+<hr>
 
-        <form method="POST" action="{% url 'login' %}">
-            {% csrf_token %}
-            <button type="submit">LOG IN</button>
-        </form>
+<h5>Comments</h5>
 
-    {% endif %}
-
-    {% if request.user.is_authenticated %}      
-
-        {% if article.author.user == user %}
-
-            <h3><a href='{% url 'blog:edit' pk=article.pk %}'>Edit Article.</a></h3>
-
-        {% endif %}
-
-    <form method="POST" action="{% url 'logout' %}">
+{% if request.user.is_authenticated %}
+    <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        <button type="submit">LOG OUT</button>
+        {% for field in comment_form %}
+            {{ field.errors }}
+            {{ field }}
+        {% endfor %}
+        <input class="btn btn-sm btn-yassified mt-3 p-2" type="submit" value="Submit Comment">
     </form>
-    </body>
-    {% endif %}
-    {% endblock content %}
-</html>
+{% endif %}
+
+<ul class="list-group list-group-flush mt-4">
+{% for comment in comments %}
+    <li class="list-group-item">
+        <p class="mb-0"><strong>{{ comment.author }}</strong></p>
+        <small class="text-secondary">Commented {{ comment.created_on }} at {{ comment.created_on }} | Edited {{ comment.updated_on }} at {{ comment.updated_on }}</small>
+        <p>{{ comment.entry }}</p>
+    </li>
+{% endfor %}
+</ul>
+
+{% if not request.user.is_authenticated %}
+
+    <form method="POST" action="{% url 'login' %}">
+        {% csrf_token %}
+        <button type="submit">LOG IN</button>
+    </form>
+
+{% endif %}
+{% endblock %}

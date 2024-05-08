@@ -10,11 +10,7 @@
                 <form method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
                     {{ form }}
-                    <button>Submit</button>
-                </form>
-                <form method="POST" action="{% url 'logout' %}">
-                    {% csrf_token %}
-                    <button type="submit">LOG OUT</button>
+                    <input class="btn btn-yassified" type="submit" value="Submit">
                 </form>
             </body>
             {% endif %}
