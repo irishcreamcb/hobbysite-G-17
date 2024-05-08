@@ -30,4 +30,5 @@ urlpatterns = [
     path('user_management/', include('django.contrib.auth.urls')),
     path('user_management/', include('user_management.urls', namespace = 'user_management'))
 ]
+
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

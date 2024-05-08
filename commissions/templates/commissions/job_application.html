@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load static %} 
+{% block title %} 
+    Apply for a Job
+{% endblock title %} 
+{% block content %} 
+    <h1>Apply for a Job</h1>
+    <form method="post">{% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Save"> 
+    </form>
+{% endblock content %}

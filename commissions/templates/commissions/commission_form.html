@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load static %} 
+{% block title %} 
+    Add Commission
+{% endblock title %} 
+{% block content %} 
+    <h1>Add Commission</h1>
+    <form method="post">{% csrf_token %}
+        {{ form.as_p }}
+        <h2>Add Jobs</h2>
+        {{ Jobs.as_p }}
+        <input type="submit" value="Save" class="btn-yassified p-2"> 
+    </form>
+{% endblock content %}
