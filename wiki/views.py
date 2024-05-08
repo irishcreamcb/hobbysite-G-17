@@ -32,11 +32,14 @@ class ArticleListView(ListView):
     template_name = 'wiki/article_list.html'
     context_object_name = 'all_articles'
     def get_queryset(self):
-        return Article.objects.exclude(author__user=self.request.user)
+        if self.request.user.is_authenticated:
+            return Article.objects.exclude(author__user=self.request.user)
+        return Article.objects.all()
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
-        ctx['my_articles'] = Article.objects.filter(author__user=self.request.user)
+        if self.request.user.is_authenticated:
+            ctx['my_articles'] = Article.objects.filter(author__user=self.request.user)
         return ctx
 
 class ArticleDetailView(DetailView):
