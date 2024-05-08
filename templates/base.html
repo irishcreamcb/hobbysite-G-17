@@ -39,10 +39,10 @@
         
                                 <ul class="navbar-nav p-1 justify-content-center mx-auto mb-2 mb-lg-0">
                                     <li class="nav-item">
-                                        <a class="btn btn-yassified py-2 px-4"><i class="fa fa-comment" aria-hidden="true"></i> iBlog</a>
+                                        <a class="btn btn-yassified py-2 px-4" href="{% url 'blog:list' %}"><i class="fa fa-comment" aria-hidden="true"></i> iBlog</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="btn btn-yassified py-2 px-4"><i class="fa fa-search" aria-hidden="true"></i> iWiki</a>
+                                        <a class="btn btn-yassified py-2 px-4" href="{% url 'wiki:list' %}"><i class="fa fa-search" aria-hidden="true"></i> iWiki</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="btn btn-yassified py-2 px-4" href="{% url 'commissions:commission-list' %}"><i class="fa fa-briefcase" aria-hidden="true"></i> iCommission</a>
