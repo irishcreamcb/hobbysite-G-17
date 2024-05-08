@@ -5,7 +5,8 @@
 {% block content %}
 <ul class="nav nav-tabs">
     <li  class="nav-item"></li><a class="nav-link" href="{% url 'merchstore:list'%}">List of Products</a></li>
-    <li class="nav-item"><a class="nav-link active" href="{% url 'merchstore:cart' %}">View My Cart</a></li>
+    <li class="nav-item" ><a class="nav-link" href="{% url 'merchstore:item-add' %}">Create My Product</a></li>
+    <li class="nav-item"><a class="nav-link" href="{% url 'merchstore:cart' %}">View My Cart</a></li>
     <li class="nav-item"><a class="nav-link" href="{% url 'merchstore:transaction-list' %}">View My Transactions</a></li>
 </ul>
 <h1>{{ object.name }}</h1>

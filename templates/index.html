@@ -8,7 +8,7 @@
 {% block content %}
 
 {% if request.user.is_authenticated %}
-<h1 class="mb-5">Dashboard</h1>
+<h1>Dashboard</h1>
 <h3>My Blog Articles</h3>
 <hr>
 <ul class="list-group list-group-flush mb-3">
@@ -23,32 +23,11 @@
     <li class="list-group-item"><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></li>
 {% endfor %}
 </ul>
-<h3>My Created Commissions</h3>
+<h3>My Commissions</h3>
 <hr>
 <ul class="list-group list-group-flush mb-3">
-{% for commission in commissions_created %}
+{% for commission in commissions %}
     <li class="list-group-item"><a href="{{ commission.get_absolute_url }}">{{ commission.title }}</a></li>
-{% endfor %}
-</ul>
-<h3>My Applied Commissions</h3>
-<hr>
-<ul class="list-group list-group-flush mb-3">
-{% for commission in commissions_joined %}
-    <li class="list-group-item"><a href="{{ commission.get_absolute_url }}">{{ commission.title }}</a></li>
-{% endfor %}
-</ul>
-<h3>My Products</h3>
-<hr>
-<ul class="list-group list-group-flush mb-3">
-{% for product in products_sold %}
-    <li class="list-group-item"><a href="{{ product.get_absolute_url }}">{{ product.name }}</a></li>
-{% endfor %}
-</ul>
-<h3>My Purchases</h3>
-<hr>
-<ul class="list-group list-group-flush mb-3">
-{% for product in products_bought %}
-    <li class="list-group-item"><a href="{{ product.get_absolute_url }}">{{ product.name }}</a></li>
 {% endfor %}
 </ul>
 {% else %}

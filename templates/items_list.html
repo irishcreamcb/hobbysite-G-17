@@ -4,11 +4,8 @@
 
 {% block content %}
 <h1>Welcome to our Merchandise Store!</h1>
-{% if request.user.is_authenticated %}
-<a class="btn btn-sm btn-yassified p-2 mb-3" href="{% url 'merchstore:item-add' %}"><i class="fa fa-plus" aria-hidden="true"></i> Create a product</a>
-{% endif %}
 <ul class="nav nav-tabs">
-    <li class="nav-item" ><a class="nav-link active" href="{% url 'merchstore:list'%}">List of Products</a></li>
+    <li class="nav-item" ><a class="nav-link" href="{% url 'merchstore:item-add' %}">Create My Product</a></li>
     <li class="nav-item"><a class="nav-link" href="{% url 'merchstore:cart' %}">View My Cart</a></li>
     <li class="nav-item"><a class="nav-link" href="{% url 'merchstore:transaction-list' %}">View My Transactions</a></li>
 </ul>
