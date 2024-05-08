@@ -79,6 +79,12 @@ class CommissionCreateView(CreateView, LoginRequiredMixin): #yoinked from: https
             data['Jobs'] = JobFormset(self.request.POST)
         else: 
             data['Jobs'] = JobFormset()
+        for form in data['Jobs']:
+            for field in form.fields.values():
+                if (field.widget.input_type == 'checkbox'):
+                    field.widget.attrs.update({'class': 'form-check-input'})
+                else:
+                    field.widget.attrs.update({'class': 'form-control'})
 
         return data 
     
@@ -123,6 +129,13 @@ class CommissionUpdateView(UpdateView, LoginRequiredMixin):
             data['Jobs'] = JobFormset(self.request.POST, instance=self.object)
         else: 
             data['Jobs'] = JobFormset(instance=self.object)
+        
+        for form in data['Jobs']:
+            for field in form.fields.values():
+                if (field.widget.input_type == 'checkbox'):
+                    field.widget.attrs.update({'class': 'form-check-input'})
+                else:
+                    field.widget.attrs.update({'class': 'form-control'})
 
         return data 
     

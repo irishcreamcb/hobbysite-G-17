@@ -6,7 +6,7 @@
 {% block content %}
 {% if request.user.is_authenticated %} 
     <h1>Your Commissions</h1>
-    <h2><a href="{% url 'commissions:commission-create' %}">Create a new Commission</a></h2>
+    <a class="btn btn-sm btn-yassified p-2 mb-3" href="{% url 'commissions:commission-create' %}">Create a new Commission</a>
     <h3>
         <ul class="list-group list-group-flush mb-5">
             {% for commission in object_list %}

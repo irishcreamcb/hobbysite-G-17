@@ -31,8 +31,5 @@ class JobApplicationForm(forms.ModelForm):
 JobFormset = inlineformset_factory(
     Commission, 
     Job, 
-    fields='__all__', 
-    widgets = {
-        'entry': forms.Textarea(attrs={'class': 'form-control'})
-    }
+    fields='__all__'
 )
