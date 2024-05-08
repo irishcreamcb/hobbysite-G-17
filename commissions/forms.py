@@ -28,4 +28,11 @@ class JobApplicationForm(forms.ModelForm):
         super().__init__(*args, **kwargs) 
         self.fields['applicant'].disabled = True 
  
-JobFormset = inlineformset_factory(Commission, Job, fields='__all__')
+JobFormset = inlineformset_factory(
+    Commission, 
+    Job, 
+    fields='__all__', 
+    widgets = {
+        'entry': forms.Textarea(attrs={'class': 'form-control'})
+    }
+)

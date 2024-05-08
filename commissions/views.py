@@ -17,12 +17,12 @@ class CommissionListView(ListView):
 
     def get_context_data(self, **kwargs): 
         ctx = super().get_context_data(**kwargs)
-        ctx['applications'] = JobApplication.objects.filter(applicant=self.request.user.profile)
-        
+        job_applications = [] 
+        applied_by_user = [] 
+
         if self.request.user.is_authenticated: 
             user = Profile.objects.get(user=self.request.user)
             job_applications = JobApplication.objects.filter(applicant=user)
-            applied_by_user = []
 
             for application in job_applications: 
                 job = application.job
@@ -30,6 +30,7 @@ class CommissionListView(ListView):
                 if commission not in applied_by_user: 
                     applied_by_user.append(commission) 
                 
+        ctx['applications'] = job_applications
         ctx['applied_by_user'] = applied_by_user
 
         return ctx
