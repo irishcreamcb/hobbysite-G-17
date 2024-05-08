@@ -7,7 +7,7 @@
 {% endif %}
 
 <h1>{{ article.title }}</h1>
-
+<small><strong>By:</strong> {{ article.author.display_name }}</small><br>
 <small><strong>Created on:</strong> {{ article.created_on|date:'M n, Y' }}</small><br>
 <small><strong>Updated on:</strong> {{ article.updated_on|date:'M n, Y' }}</small>
 </br>
