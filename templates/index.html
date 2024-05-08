@@ -9,7 +9,27 @@
 
 {% if request.user.is_authenticated %}
 <h1>Dashboard</h1>
-
+<h3>My Blog Articles</h3>
+<hr>
+<ul class="list-group list-group-flush mb-3">
+{% for article in blog_articles %}
+    <li class="list-group-item"><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></li>
+{% endfor %}
+</ul>
+<h3>My Wiki Articles</h3>
+<hr>
+<ul class="list-group list-group-flush mb-3">
+{% for article in wiki_articles %}
+    <li class="list-group-item"><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></li>
+{% endfor %}
+</ul>
+<h3>My Commissions</h3>
+<hr>
+<ul class="list-group list-group-flush mb-3">
+{% for commission in commissions %}
+    <li class="list-group-item"><a href="{{ commission.get_absolute_url }}">{{ commission.title }}</a></li>
+{% endfor %}
+</ul>
 {% else %}
 <h3>i LOVE CSCI!</h3>
 <p>Come explore our page.</p>

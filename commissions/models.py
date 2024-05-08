@@ -21,7 +21,7 @@ class Commission(models.Model):
     updated_on = models.DateTimeField(auto_now=True)
     creator = models.ForeignKey(Profile, 
                                 on_delete=models.CASCADE,
-                                related_name='commission',)
+                                related_name='commissions',)
     
     class Meta: 
         ordering = [
