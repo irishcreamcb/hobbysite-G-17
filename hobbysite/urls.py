@@ -24,9 +24,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', IndexView.as_view()),
     path('merchstore/', include('merchstore.urls', namespace = 'merchstore')),
-    path('commissions/', include('commissions.urls', namespace = 'commissions')),
-    path('blog/', include('blog.urls', namespace = 'blog')), 
-    path('wiki/', include('wiki.urls', namespace = 'wiki')),  
+    # path('commissions/', include('commissions.urls', namespace = 'commissions')),
+    # path('blog/', include('blog.urls', namespace = 'blog')), 
+    # path('wiki/', include('wiki.urls', namespace = 'wiki')),  
     path('user_management/', include('django.contrib.auth.urls')),
     path('user_management/', include('user_management.urls', namespace = 'user_management'))
 ]

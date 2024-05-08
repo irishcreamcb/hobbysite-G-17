@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}MerchStore Cart{% endblock title %}
+
+{% block content %}
+{% if request.user.is_authenticated %}
+<h1>CART</h1>  
+<ul class="nav nav-tabs">
+    <li  class="nav-item"></li><a class="nav-link" href="{% url 'merchstore:list'%}">List of Products</a></li>
+    <li class="nav-item" ><a class="nav-link" href="{% url 'merchstore:item-add' %}">Create My Product</a></li>
+    <li class="nav-item"><a class="nav-link" href="{% url 'merchstore:transaction-list' %}">View My Transactions</a></li>
+</ul>
+
+<ul>
+    {% for seller in all_sellers %}
+        {% if seller.user != request.user %}
+            <li class="list-group list-group-flush">
+                <h3>Purchased from {{ seller.display_name }}</h3>
+                <ul>
+                    {% for item in purchased_items %}
+                        {% if item.product.owner == seller %}
+                        <li>
+                            <b>Product: </b>{{ item.product.name }} <br>
+                            <b>Amount: </b>{{ item.amount }} <br>
+                            <b>Time of Transaction: </b>{{ item.created_on }} <br>
+                            <b>Status: </b>{{ item.transaction_status }} <br>
+                        </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endif %}
+    {% endfor %}
+</ul>
+<h2>Total Payment: {{ total }}</h2>
+
+{% else %}
+<a href="{% url 'login' %}">LOGIN</a>
+{% endif %}
+
+{% endblock content %}

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}MerchStore Update Items{% endblock title %}
+
+{% block content %}
+{% if request.user.is_authenticated %}
+    <h2>Update Item Information</h2>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_div }}
+        <button class="btn-yassified">UPDATE</button>
+    </form>
+
+{% endif %}
+
+<h3><a href="{% url 'merchstore:list'%}">Return to List of Products</a></h3>
+
+{% endblock content %}

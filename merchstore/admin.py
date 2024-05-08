@@ -11,5 +11,12 @@ class ProductDetails(admin.ModelAdmin):
     model = ProductType
     inlines = [ItemsInLine]
 
+class ProductsAll(admin.ModelAdmin):
+    model = Product
+    search_fields = ['name']
+    list_display = ['name']
+    list_filter = ['owner', 'name', 'price']
+
 
 admin.site.register(ProductType, ProductDetails)
+admin.site.register(Product, ProductsAll)
