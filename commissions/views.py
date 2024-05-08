@@ -97,6 +97,14 @@ class CommissionCreateView(CreateView, LoginRequiredMixin): #yoinked from: https
 
         return initial
     
+    def get_form(self, form_class=form_class):
+        form = super().get_form(form_class)
+
+        for field in form.fields.values():
+            field.widget.attrs.update({'class': 'form-control'})
+
+        return form
+    
     def get_success_url(self):
         return reverse('commissions:commission-list')
     
@@ -145,6 +153,14 @@ class CommissionUpdateView(UpdateView, LoginRequiredMixin):
             jobs.save()
         return super().form_valid(form) 
     
+    def get_form(self, form_class=form_class):
+        form = super().get_form(form_class)
+
+        for field in form.fields.values():
+            field.widget.attrs.update({'class': 'form-control'})
+
+        return form
+    
     def get_success_url(self):
         return reverse('commissions:commission-list')
 
@@ -157,7 +173,16 @@ class JobApplicationCreateView(CreateView, LoginRequiredMixin):
     def get_initial(self):
         initial = super().get_initial()
         initial['applicant'] = self.request.user.profile
+        
         return initial
+
+    def get_form(self, form_class=form_class):
+        form = super().get_form(form_class)
+
+        for field in form.fields.values():
+            field.widget.attrs.update({'class': 'form-control'})
+
+        return form
 
     def get_success_url(self):
         return reverse('commissions:commission-list')

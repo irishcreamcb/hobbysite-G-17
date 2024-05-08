@@ -7,6 +7,9 @@ class CommissionForm(forms.ModelForm):
     class Meta: 
         model = Commission
         fields = '__all__'
+        widgets = {
+            'entry': forms.Textarea(attrs={'class': 'form-control'})
+        }
 
     def __init__(self, *args, **kwargs): 
         super().__init__(*args, **kwargs)
@@ -17,6 +20,9 @@ class JobApplicationForm(forms.ModelForm):
     class Meta: 
         model = JobApplication
         fields = ['job','applicant']
+        widgets = {
+            'entry': forms.Textarea(attrs={'class': 'form-control'})
+        }
 
     def __init__(self, *args, **kwargs): 
         super().__init__(*args, **kwargs) 
