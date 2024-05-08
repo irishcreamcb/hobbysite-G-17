@@ -18,8 +18,8 @@ class ArticleCategory(models.Model):
 class Article(models.Model):
     title = models.CharField(max_length=255)
     entry = models.TextField()
-    created_on = models.DateTimeField(auto_now_add=True, editable=False)
-    updated_on = models.DateTimeField(auto_now=True, editable=False)
+    created_on = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
     author = models.ForeignKey(
         Profile,
@@ -45,7 +45,7 @@ class Article(models.Model):
 class Comment(models.Model):
     entry = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
-    update_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
     author = models.ForeignKey(
         Profile,
@@ -55,7 +55,8 @@ class Comment(models.Model):
     article = models.ForeignKey(
         Article,
         null=True,
-        on_delete=models.CASCADE) 
+        on_delete=models.CASCADE,
+        related_name='comments') 
     
     class Meta:
         ordering = ['created_on']

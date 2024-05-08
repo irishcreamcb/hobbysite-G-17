@@ -4,12 +4,12 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView
 from django.urls import reverse_lazy
 
-from .models import Article, ArticleCategory, Profile
-from .forms import ArticleForm
+from .models import Article, Profile, Comment
+from .forms import ArticleForm, CommentForm
 
 
 class ArticleListView(ListView):
-    template_name = 'blog_list.html'
+    template_name = 'blog/blog_list.html'
 
     def get_queryset(self):
         return Article.objects.exclude(author__user=self.request.user.id).order_by('category')
@@ -23,18 +23,32 @@ class ArticleListView(ListView):
 
 class ArticleDetailView(DetailView):
     model = Article
-    template_name = 'blog_detail.html'
+    template_name = 'blog/blog_detail.html'
 
     def get_context_data(self, **kwargs):
+        author = Article.objects.get(pk=self.object.pk).author
         ctx = super().get_context_data(**kwargs)
-        ctx['recommended'] = Article.objects.filter(author__user=self.request.user.id)
+        ctx['related_articles'] = Article.objects.filter(author=author).exclude(id=self.object.pk)
+        ctx['comment_form'] = CommentForm()
+        ctx['comments'] = Article.objects.get(pk=self.object.pk).comments.all()
         return ctx
+    
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.author = Profile.objects.filter(user=request.user)[0]
+            comment.article = Article.objects.get(pk=self.object.pk)
+            comment.save()
+            form = CommentForm()
+            return self.get(self, request)
 
 
 class ArticleCreateView(LoginRequiredMixin, CreateView):
     model = Article
     form_class = ArticleForm
-    template_name = 'blog_add.html'
+    template_name = 'blog/blog_add.html'
 
     def get_success_url(self):
         return reverse_lazy('blog:list')
@@ -49,7 +63,13 @@ class ArticleCreateView(LoginRequiredMixin, CreateView):
 class ArticleUpdateView(LoginRequiredMixin, UpdateView):
     model = Article
     form_class = ArticleForm
-    template_name = 'blog_edit.html'
+    template_name = 'blog/blog_edit.html'
 
     def get_success_url(self):
         return reverse_lazy('blog:detail', kwargs={'pk': self.object.pk })
+    
+    def get_form(self, form_class=None):
+        profile = Profile.objects.get(user=self.request.user)
+        form = super().get_form(form_class)
+        form.fields['author'].choices = [(profile.id, profile.display_name)]
+        return form

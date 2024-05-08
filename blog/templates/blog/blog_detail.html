@@ -15,6 +15,31 @@
             <p>{{ article.entry }}</p>
         </ul>
 
+    <h3>Comments</h3>
+
+    {% if request.user.is_authenticated %}
+        <form method="POST">
+            {% csrf_token %}
+            {{ comment_form }}
+            <button>Submit</button>
+        </form>
+    {% endif %}
+
+    {% for comment in comments %}
+
+            <p><strong><u>{{ comment.author }}</u></strong>
+             | Commented on {{ comment.created_on }} 
+             | Last Edited on {{ comment.updated_on}}</p>
+            <p>{{ comment.entry }}</p>
+
+    {% endfor %}
+
+    <h3>More articles by {{ article.author }}</h3>
+        <ul>
+            {% for article in related_articles %}
+                <li><a href='{{ article.get_absolute_url }}'>{{ article.title }} in {{ article.category }}</a></li> 
+            {% endfor %}
+        </ul>
     {% if not request.user.is_authenticated %}
 
         <form method="POST" action="{% url 'login' %}">
