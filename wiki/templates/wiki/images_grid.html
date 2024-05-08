@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}Image Gallery{% endblock %}
+{% block content %}
+<ul class="nav nav-tabs mb-3">
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'wiki:list' %}">Articles</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link active" href="{% url 'wiki:gallery' %}">Image gallery</a>
+    </li>
+</ul>
+
+<h1>Image Gallery</h1>
+<div class="container">
+    <div class="row row-cols-3">
+    {% for article in articles %}
+        <div class="col mb-4">
+            <div class="card">
+                <img src="{{ article.header_image.url }}" class="card-img-top">
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block title %}{{ article.title }}{% endblock %}
+{% block content %}
+<a class="btn btn-sm btn-yassified p-2 mb-3" href="{% url 'wiki:list' %}"><i class="fa fa-chevron-left" aria-hidden="true"></i> Back</a>
+{% if article.author.user == user %}
+<a class="btn btn-sm btn-yassified p-2 mb-3" href="{% url 'wiki:edit' pk=article.pk %}"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a>
+{% endif %}
+
+<h1>{{ article.title }}</h1>
+<small><strong>By:</strong> {{ article.author.display_name }}</small><br>
+<small><strong>Created on:</strong> {{ article.created_on|date:'M n, Y' }}</small><br>
+<small><strong>Updated on:</strong> {{ article.updated_on|date:'M n, Y' }}</small>
+</br>
+<hr>
+<img src="{{ article.header_image.url }}" class="img-fluid">
+<p class="mt-4 mb-5">{{ article.entry }}</p>
+
+<h5>Read more from {{ article.category.name }}</h5>
+<ul class="list-group list-group-flush mb-3">
+{% for other_article in read_more %}
+    <li class="list-group-item"><a href="{{ other_article.get_absolute_url }}">{{ other_article.title }}</a></li>
+{% endfor %}
+</ul>
+<h5>Leave a Comment</h5>
+{% if user.is_authenticated %}
+    <form method="post">
+        {% csrf_token %}
+        {% for field in form %}
+            {{ field.errors }}
+            {{ field }}
+        {% endfor %}
+        <input class="btn btn-sm btn-yassified mt-3 p-2" type="submit" value="Submit comment">
+    </form>
+{% endif %}
+<ul class="list-group list-group-flush mt-4">
+{% for comment in article.comments.all %}
+    <li class="list-group-item">
+        <p class="mb-0"><strong>{{ comment.author.display_name }}</strong></p>
+        <small class="text-secondary">{{ comment.updated_on|date:'F n, Y' }} at {{ comment.updated_on|date:'g:i A' }}</small>
+        <p>{{ comment.entry }}</p>
+    </li>
+{% endfor %}
+</ul>
+{% endblock %}
