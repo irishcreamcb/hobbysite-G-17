@@ -10,9 +10,10 @@ from .forms import JobFormset, CommissionForm, JobApplicationForm
 
 from user_management.models import Profile
 
+
 class CommissionListView(ListView): 
     model = Commission 
-    template_name = 'commission_list.html'
+    template_name = 'commissions/commission_list.html'
 
     def get_context_data(self, **kwargs): 
         ctx = super().get_context_data(**kwargs)
@@ -36,7 +37,7 @@ class CommissionListView(ListView):
 
 class CommissionDetailView(DetailView): 
     model = Commission 
-    template_name = 'commission_detail.html'
+    template_name = 'commissions/commission_detail.html'
 
     def get_context_data(self, **kwargs): 
         self.object = self.get_object()
@@ -67,7 +68,7 @@ class CommissionDetailView(DetailView):
 
 class CommissionCreateView(CreateView, LoginRequiredMixin): #yoinked from: https://swapps.com/blog/working-with-nested-forms-with-django/
     model = Commission
-    template_name = 'commission_form.html' 
+    template_name = 'commissions/commission_form.html' 
     form_class = CommissionForm
 
     def get_context_data(self, **kwargs): 
@@ -111,7 +112,7 @@ class CommissionCreateView(CreateView, LoginRequiredMixin): #yoinked from: https
 
 class CommissionUpdateView(UpdateView, LoginRequiredMixin): 
     model = Commission
-    template_name = 'commission_update.html' 
+    template_name = 'commissions/commission_update.html' 
     form_class = CommissionForm
 
     def get_context_data(self, **kwargs): 
@@ -167,7 +168,7 @@ class CommissionUpdateView(UpdateView, LoginRequiredMixin):
 
 class JobApplicationCreateView(CreateView, LoginRequiredMixin): 
     model = JobApplication
-    template_name = 'job_application.html'
+    template_name = 'commissions/job_application.html'
     form_class = JobApplicationForm
 
     def get_initial(self):

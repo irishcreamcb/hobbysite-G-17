@@ -10,15 +10,15 @@
         Total People Needed: {{ manpower }} <br>
         Open Slots: {% if commission.status != 'O' %}0{% else %}{{ remaining }}{% endif %}
     </h3>
-    <p>
+    <p class="mt-4 mb-5">
         Date Created: {{ commission.created_on }}<br>
         Last Updated: {{ commission.updated_on }}<br>
         {{ commission.description }}
     </p>
     <h3>Jobs:</h3>
-    <ul>
+    <ul class="list-group list-group-flush mb-3">
         {% for job in commission.jobs.all %}
-            <li>
+            <li class="list-group-item">
                 {{ job.role }}: {% if job.status == 'F' %}Full{% else %}Open{% endif %}<br>
                 Total People Needed: {{ job.manpower_required }}<br> 
                 {% if request.user != commission.creator.user and job.status != 'F' %} 
