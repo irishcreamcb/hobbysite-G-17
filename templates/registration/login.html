@@ -1,18 +1,16 @@
-<html lang="en">
-    {% extends "base.html" %}
+{% extends "base.html" %}
+{% load static %}
+{% block title %} 
+    Login Page
+{% endblock title %} 
+{% block content %} 
+    <h1>Login</h1>
 
-    {% block title %}Blog{% endblock title %}
-    {% block content %}
-        <head>
-            <title>Login</title>
-        </head>
-        <h1>login</h1>
+    <a href="{% url 'password_reset' %}">Forgot your password?</a>
 
-        <form method="POST">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">login</button>
-            <a href="{% url 'password_reset' %}">Forgot password.</a>
-        </form>
-    {% endblock content %}
-</html>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn-yassified p-2" type="submit">Login</button>
+    </form>
+{% endblock content %} 

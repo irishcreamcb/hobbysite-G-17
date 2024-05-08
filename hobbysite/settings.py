@@ -20,7 +20,7 @@ load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
+load_dotenv()
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
@@ -42,8 +42,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'merchstore',
+    'wiki',
     'blog',
+<<<<<<< HEAD
     'user_management',
+=======
+    'commissions',
+    'user_management', 
+>>>>>>> main
 ]
 
 MIDDLEWARE = [
@@ -126,12 +133,10 @@ STATICFILES_DIRS = [
     BASE_DIR/'static',
 ]
 STATIC_URL = '/static/'
-LOGIN_REDIRECT_URL = "/blog/articles"
-LOGOUT_REDIRECT_URL = "/blog/articles"
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/user_management/login'
 MEDIA_ROOT = BASE_DIR/'media'
 MEDIA_URL = '/media/'
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
