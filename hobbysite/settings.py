@@ -43,10 +43,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'merchstore',
-    # 'wiki',
-    # 'blog',
-    # 'commissions',
-    'user_management', 
+    'wiki',
+    'blog',
+    'commissions',
     'user_management', 
 ]
 

@@ -3,15 +3,19 @@
 {% block title %}MerchStore Items{% endblock title %}
 
 {% block content %}
-<h1>Title: {{ object.name }}</h1>
-<h2>Type: {{ object.Product_Type}}</h2>
-<h3>Price: {{ object.price }}</h3>
-<h3>Stock: {{ object.stock }}</h3>
-<h3>Status: {{ object.product_status }}</h3>
-<h4>Made by: {{ object.owner }}</h4>
-
+<ul class="nav nav-tabs">
+    <li  class="nav-item"></li><a class="nav-link" href="{% url 'merchstore:list'%}">List of Products</a></li>
+    <li class="nav-item" ><a class="nav-link" href="{% url 'merchstore:item-add' %}">Create My Product</a></li>
+    <li class="nav-item"><a class="nav-link" href="{% url 'merchstore:cart' %}">View My Cart</a></li>
+    <li class="nav-item"><a class="nav-link" href="{% url 'merchstore:transaction-list' %}">View My Transactions</a></li>
+</ul>
+<h1>{{ object.name }}</h1>
+<p><b>Type: </b> {{ object.Product_Type}}<p>
+<p><b>Price: </b>{{ object.price }}<p>
+<p><b>Stock: </b>{{ object.stock }}<p>
+<p><b>Status: </b>{{ object.product_status }}<p>
+<p><b>Made by: </b>{{ object.owner }}<p>
 <p>{{ object.description }}</p>
-
 
 {% if request.user == object.owner.user %}
     <a href="{% url 'merchstore:item-update' object.pk %}">Update Your Product</a>
@@ -29,23 +33,13 @@
             {% else %}
             {% endif %}
             {% if object.stock == 0 %}
-                <button disabled>BUY</button>
+                <button class="btn-yassified" disabled>BUY</button>
                 <h2 style="color:red">Sorry, the item is currently not available.</h2>
             {% else %}
             
-            <button>BUY</button>
+            <button class="btn-yassified">BUY</button>
         </form>
             {% endif %}  
 {% endif %}  
-
-</br>
-<h3><a href="{% url 'merchstore:list'%}">Return to List of Products</a></h3>
-
-{% if request.user.is_authenticated %}
-    <form action="{% url 'logout' %}" method="POST">
-        {% csrf_token %}
-        <button type="SUBMIT">LOGOUT</button>
-    </form>  
-{% endif %}
 
 {% endblock content %}

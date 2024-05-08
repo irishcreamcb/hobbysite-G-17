@@ -3,23 +3,19 @@
 {% block title %}MerchStore Create Items{% endblock title %}
 
 {% block content %}
+<h1>Create My Product</h1>
+<ul class="nav nav-tabs">
+    <li  class="nav-item"></li><a class="nav-link" href="{% url 'merchstore:list'%}">List of Products</a></li>
+    <li class="nav-item"><a class="nav-link" href="{% url 'merchstore:cart' %}">View My Cart</a></li>
+    <li class="nav-item"><a class="nav-link" href="{% url 'merchstore:transaction-list' %}">View My Transactions</a></li>
+</ul>
 {% if request.user.is_authenticated %}
     <form method="POST">
         {% csrf_token %}
         {{ form.as_div }}
-        <button >CREATE</button>
+        <button class="btn-yassified">CREATE</button>
     </form>
 
-    <form action="{% url 'logout' %}" method="POST">
-        {% csrf_token %}
-        <button type="SUBMIT" class="btn-yassified">LOGOUT</button>
-    </form>  
-
-{% else %}
-    <a href="{% url 'login' %}">LOGIN</a>
 {% endif %}
-
-<h3><a href="{% url 'merchstore:list'%}">Return to List of Products</a></h3>
-
 
 {% endblock content %}

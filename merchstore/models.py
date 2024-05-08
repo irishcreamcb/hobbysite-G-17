@@ -30,7 +30,7 @@ class Product(models.Model):
         on_delete=models.CASCADE,
         related_name='owner'
     )
-    stock = models.IntegerField()
+    stock = models.PositiveIntegerField()
     available = "AVAILABLE"
     no_stock = "OUT OF STOCK"
     sale = "ON SALE"
@@ -66,7 +66,7 @@ class Transaction(models.Model):
         null=True,
         related_name='purchased_product'
     )
-    amount = models.IntegerField()
+    amount = models.PositiveIntegerField()
     cart = "IN CART"
     pay = "TO PAY"
     ship = "TO SHIP"

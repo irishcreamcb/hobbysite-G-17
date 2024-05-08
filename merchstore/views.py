@@ -111,6 +111,12 @@ class ItemDetail(DetailView):
                 return redirect(login_url)
         return render(request, self.template_name, context=ctx)
 
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        for field in form.fields.value():
+            field.widget.attrs({'class': 'form-control'})
+        return form
+
     def make_transaction(self, transaction, product, amount, user):
         transaction.product = product
         transaction.buyer = user
