@@ -28,7 +28,14 @@
                     <div style="height: 8em;" class="rounded-top position-relative">
                         <img style="width: 25em; top: -4em; left: -4em;" class="position-absolute" src="{% static 'img/icsci.png' %}" alt="">
                         <img style="width: 470px; top: -80px; right: -19px;" class="position-absolute" src="{% static 'img/family-photo.png' %}" alt="">
-                        <a href="{% if request.user.is_authenticated %}{% url 'logout' %}{% else %}{% url 'login' %}{% endif %}" class="btn btn-login position-absolute py-3 rounded-pill"><strong>{% if request.user.is_authenticated %}logout{% else %}login{% endif %}<br><i class="fa fa-arrow-right" aria-hidden="true"></i></strong></a>
+                        {% if request.user.is_authenticated %}
+                        <form action="{% url 'logout' %}" method="POST">
+                            {% csrf_token %}
+                            <button class="btn btn-login position-absolute py-3 rounded-pill" type="SUBMIT">logout</button>
+                        </form>
+                        {% else %}
+                        <a class="btn btn-login position-absolute py-3 rounded-pill"  href="{% url 'logout' %}"><strong>login<br><i class="fa fa-arrow-right" aria-hidden="true"></i></strong></a>
+                        {% endif %}
                     </div>
                     <nav class="navbar navbar-expand-lg">
                         <div class="container-fluid">
