@@ -3,10 +3,43 @@
 {% block title %}MerchStore Items{% endblock title %}
 
 {% block content %}
-<h1>Title: {{ object.name }}</h1>
-<h2>Type: {{ object.Product_Type}}</h2>
-<h3>Price: {{ object.price }}</h3>
-
+<ul class="nav nav-tabs">
+    <li  class="nav-item"></li><a class="nav-link" href="{% url 'merchstore:list'%}">List of Products</a></li>
+    <li class="nav-item" ><a class="nav-link" href="{% url 'merchstore:item-add' %}">Create My Product</a></li>
+    <li class="nav-item"><a class="nav-link" href="{% url 'merchstore:cart' %}">View My Cart</a></li>
+    <li class="nav-item"><a class="nav-link" href="{% url 'merchstore:transaction-list' %}">View My Transactions</a></li>
+</ul>
+<h1>{{ object.name }}</h1>
+<p><b>Type: </b> {{ object.Product_Type}}<p>
+<p><b>Price: </b>{{ object.price }}<p>
+<p><b>Stock: </b>{{ object.stock }}<p>
+<p><b>Status: </b>{{ object.product_status }}<p>
+<p><b>Made by: </b>{{ object.owner }}<p>
 <p>{{ object.description }}</p>
+
+{% if request.user == object.owner.user %}
+    <a href="{% url 'merchstore:item-update' object.pk %}">Update Your Product</a>
+    {% else %}
+    
+        <form method="POST">
+            {% csrf_token %}
+            {{ buy_form.as_div }}
+            {% if errors.amount_exceeded %}
+                <h2 style="color:red">Sorry, amount exceeds current stock.</h2>
+            {% else %}
+            {% endif %}
+            {% if errors.negative_amount %}
+                <h2 style="color:red">Please input a valid amount.</h2>
+            {% else %}
+            {% endif %}
+            {% if object.stock == 0 %}
+                <button class="btn-yassified" disabled>BUY</button>
+                <h2 style="color:red">Sorry, the item is currently not available.</h2>
+            {% else %}
+            
+            <button class="btn-yassified">BUY</button>
+        </form>
+            {% endif %}  
+{% endif %}  
 
 {% endblock content %}
