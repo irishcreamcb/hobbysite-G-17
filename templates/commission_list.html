@@ -20,11 +20,8 @@
     <h1>Job Applications</h1>
     <h3>
         <ul>
-            {% for commission in object_list %} 
-            {% if commission.jobs.applications.applicant.user == request.user %}
-                <li><a href="{{ commission.get_absolute_url }}">{{ commission.jobs.role }} for {{ commission.title }}</a></li>
-            {% else %} 
-            {% endif %} 
+            {% for commission in applied_by_user %} 
+                <li><a href="{{ application.job.commission.get_absolute_url }}">{{ commission.title }}</a></li>
             {% endfor %}
         </ul>
     </h3>
