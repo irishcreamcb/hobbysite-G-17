@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+    Update Profile
+{% endblock title %}
+{% block content %}
+<form method="post">
+    {% csrf_token %} 
+    {{ form.as_p }} 
+    <input class="btn btn-yassified" type="submit" value="Update"> 
+</form>
+{% endblock content %}  
